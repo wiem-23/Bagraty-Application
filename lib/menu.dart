@@ -28,7 +28,7 @@ class Menu extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.cancel),
-              label: 'Déconnexion',
+              label: 'Déconn',
             ),
           ],
           currentIndex: _selectedIndex,
@@ -36,8 +36,8 @@ class Menu extends StatelessWidget {
           onTap: _onItemTapped,
         ),
         body: Container(
-             height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
