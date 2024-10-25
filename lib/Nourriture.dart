@@ -1,4 +1,5 @@
 import 'package:bagraty_project/PopupCardConcentre.dart';
+import 'package:bagraty_project/PopupCardDetailsFourrage.dart';
 import 'package:bagraty_project/PopupCardFourrage.dart';
 
 import 'package:bagraty_project/quantaiteLait.dart';
@@ -57,6 +58,27 @@ class Nourriture extends StatelessWidget {
               ),
             ),
             child: const PopupCardFourrage(),
+          );
+        },
+        offset: const Offset(-8, 60),
+        alignment: Alignment.topRight,
+        useSafeArea: true,
+        dimBackground: true,
+      );
+    }
+
+    Future<void> detailsClicked() async {
+      showPopupCard<String>(
+        context: context,
+        builder: (context) {
+          return PopupCard(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              side: BorderSide(
+                color: Theme.of(context).colorScheme.outlineVariant,
+              ),
+            ),
+            child: const PopupCardDetailsFourrage(),
           );
         },
         offset: const Offset(-8, 60),
@@ -182,6 +204,25 @@ class Nourriture extends StatelessWidget {
                   },
                   child: const Text(
                     "Quantité de lait",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Color(0xffffffff),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+              MaterialButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  color: const Color(0xff708907),
+                  minWidth: 2,
+                  padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
+                  onPressed: () {
+                    detailsClicked();
+                  },
+                  child: const Text(
+                    "Détail Fourrage",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16.0,
