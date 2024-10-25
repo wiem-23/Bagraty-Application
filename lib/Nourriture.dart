@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:bagraty_project/PopupCardConcentre.dart';
 import 'package:bagraty_project/PopupCardDetailsFourrage.dart';
 import 'package:bagraty_project/PopupCardFourrage.dart';

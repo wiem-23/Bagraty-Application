@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 
 class Resultat extends StatelessWidget {
@@ -115,6 +117,8 @@ class Resultat extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const Resultat()));
+                      // ignore: duplicate_ignore
+                      // ignore: avoid_print
                       print("cliqued");
                     },
                     child: const Text(

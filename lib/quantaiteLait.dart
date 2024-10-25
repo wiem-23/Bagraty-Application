@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:bagraty_project/PopupCardAcidose.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_popup_card/flutter_popup_card.dart';

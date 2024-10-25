@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -35,7 +37,7 @@ class PopupCardConcentre extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: TextFormField(
-              cursorColor: Color.fromARGB(255, 49, 46, 46),
+              cursorColor: const Color.fromARGB(255, 49, 46, 46),
 
               // ignore: prefer_const_constructors
               style: TextStyle(color: Color(0XFF035B6F)),

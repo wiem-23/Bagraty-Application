@@ -1,3 +1,4 @@
+import 'package:bagraty_project/inscription.dart';
 import 'package:flutter/material.dart';
 
 class Connexion extends StatelessWidget {
@@ -7,7 +8,7 @@ class Connexion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-           height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.fromLTRB(80.0, 100.0, 80.0, 100.0),
         decoration: const BoxDecoration(
@@ -34,7 +35,7 @@ class Connexion extends StatelessWidget {
                   Icons.line_weight_sharp,
                   color: Colors.white,
                 ),
-                labelText: 'ID Exploitant',
+                labelText: 'Nom Exploitant',
                 labelStyle: TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
@@ -55,49 +56,7 @@ class Connexion extends StatelessWidget {
                   Icons.man_2_outlined,
                   color: Colors.white,
                 ),
-                labelText: 'Nom Exploitant',
-                labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
-                ),
-              ),
-            ),
-            TextFormField(
-              cursorColor: const Color.fromARGB(255, 255, 255, 255),
-
-              // ignore: prefer_const_constructors
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-
-              decoration: const InputDecoration(
-                icon: Icon(
-                  Icons.numbers,
-                  color: Colors.white,
-                ),
-                labelText: 'Nombre de vaches',
-                labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
-                ),
-              ),
-            ),
-            TextFormField(
-              cursorColor: const Color.fromARGB(255, 255, 255, 255),
-
-              // ignore: prefer_const_constructors
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-
-              decoration: const InputDecoration(
-                icon: Icon(
-                  Icons.map,
-                  color: Colors.white,
-                ),
-                labelText: 'Governorat',
+                labelText: 'Téléphone',
                 labelStyle: TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
@@ -119,12 +78,13 @@ class Connexion extends StatelessWidget {
                 minWidth: 2,
                 padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const Connexion()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Inscription()));
+                  // ignore: avoid_print
                   print("cliqued");
                 },
                 child: const Text(
-                  "S'inscrire",
+                  "Se connecter",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16.0,

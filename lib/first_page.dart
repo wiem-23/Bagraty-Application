@@ -1,4 +1,4 @@
-import 'package:bagraty_project/connexion.dart';
+import 'package:bagraty_project/inscription.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +8,8 @@ class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-         height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -91,7 +91,8 @@ class FirstPage extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const Connexion()));
+                          builder: (context) => Inscription()));
+                      // ignore: avoid_print
                       print("cliqued");
                     },
                     child: const Text(
