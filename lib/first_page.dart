@@ -91,7 +91,7 @@ class FirstPage extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Inscription()));
+                          builder: (context) => const InscriptionExp()));
                       // ignore: avoid_print
                       print("cliqued");
                     },

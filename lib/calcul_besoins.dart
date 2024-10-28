@@ -1,4 +1,5 @@
-import 'package:bagraty_project/ajoutfourragepopup.dart';
+import 'package:bagraty_project/PopupCardFourrage.dart';
+
 import 'package:flutter/material.dart';
 
 int _selectedIndex = 0;
@@ -279,7 +280,7 @@ class CalculBesoins extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AjoutFourragePopup()));
+                      builder: (context) => const PopupCardFourrage()));
                   // ignore: avoid_print
                   print("cliqued");
                 },

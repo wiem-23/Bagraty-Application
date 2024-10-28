@@ -1,9 +1,26 @@
+import 'package:bagraty_project/dbBagraty.dart';
 import 'package:bagraty_project/inscription.dart';
+import 'package:bagraty_project/menu.dart';
 import 'package:flutter/material.dart';
 
-class Connexion extends StatelessWidget {
+class Connexion extends StatefulWidget {
   const Connexion({super.key});
+  void initState() {
+    error = false;
 
+    success = false;
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    // ignore: no_logic_in_create_state
+    return ConnexionState();
+  }
+}
+
+class ConnexionState extends State<Connexion> {
+  final TextEditingController tel = TextEditingController();
+  final TextEditingController nom_exploitant = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +46,7 @@ class Connexion extends StatelessWidget {
 
               // ignore: prefer_const_constructors
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-
+              controller: nom_exploitant,
               decoration: const InputDecoration(
                 icon: Icon(
                   Icons.line_weight_sharp,
@@ -50,7 +67,7 @@ class Connexion extends StatelessWidget {
 
               // ignore: prefer_const_constructors
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-
+              controller: tel,
               decoration: const InputDecoration(
                 icon: Icon(
                   Icons.man_2_outlined,
@@ -77,11 +94,12 @@ class Connexion extends StatelessWidget {
                 color: const Color(0xff708907),
                 minWidth: 2,
                 padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
-                onPressed: () {
+                onPressed: () async {
+                  await BagratyDatabase()
+                      .seConnecter(tel_ex: int.parse(tel.text));
+                  print("connecté");
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Inscription()));
-                  // ignore: avoid_print
-                  print("cliqued");
+                      MaterialPageRoute(builder: (context) => const Menu()));
                 },
                 child: const Text(
                   "Se connecter",
