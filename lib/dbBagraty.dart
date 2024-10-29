@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, duplicate_ignore
+// ignore_for_file: avoid_print, duplicate_ignore, non_constant_identifier_names
 
 import 'package:sqflite/sqflite.dart';
 // ignore: depend_on_referenced_packages
@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 
 Database? _database;
 List wholeDataList = [];
+String nom_n = 'nom_n';
 
 class BagratyDatabase {
   Future get database async {
@@ -55,7 +56,7 @@ humidite INTEGER NOT NULL
 CREATE TABLE Nourriture(
 id_n  INTEGER  PRIMARY KEY AUTOINCREMENT, 
 motif_n TEXT NOT NULL, 
-nom_n TEXT NOT NULL, 
+$nom_n TEXT NOT NULL, 
 ms_n REAL NOT NULL ,
 ufl_n REAL NOT NULL,
 pdin_n INTEGER NOT NULL , 
@@ -80,16 +81,18 @@ ndf_n INTEGER NOT NULL)
   }
 
   // ignore: non_constant_identifier_names
-  Future seConnecter({required int tel_ex}) async {
+  Future seConnecter({required int tel}) async {
     final db = await database;
-    return await db
-        .query("Exploitant", where: "id_ex = ?", whereargs: [tel_ex]);
+    await db.rawQuery('SELECT * FROM Exploitant WHERE tel_ex=$tel ');
+
+    return print({tel});
   }
 
   Future<List<Map<String, dynamic>>> getItems() async {
     final db = await database;
     return db.query('Exploitant', orderBy: "id_ex");
   }
+
 /*   Future readData() async {
     // ignore: await_only_futures
     final db = await database;
@@ -99,4 +102,40 @@ ndf_n INTEGER NOT NULL)
     wholeDataList = allData.print(allData);
     return "lue";
   } */
+
+  Future insertNourriture(
+      {motif_n, nom_n, ms_n, ufl_n, pdin_n, pdie_n, ndf_n}) async {
+    final db = await database;
+    await db.insert("Nourriture", {
+      "motif_n": motif_n,
+      "nom_n": nom_n,
+      "ms_n": ms_n,
+      "ufl_n": ufl_n,
+      "pdin_n": pdin_n,
+      "pdie_n": pdie_n,
+      "ndf_n": ndf_n
+    });
+    // ignore: avoid_print, unnecessary_brace_in_string_interps
+    print("${motif_n} added successfully");
+    return "added";
+  }
+
+  late List<String> l = ["aa"];
+  Future listeFourrages() async {
+    final db = await database;
+    final rows = await db
+        .rawQuery('SELECT $nom_n FROM Nourriture WHERE motif_n="fourrage"');
+    print(rows);
+    l = rows.map((element) {
+      l.add(element[{'$nom_n'}]);
+    });
+    return print(l);
+  }
+
+  Future listeConcentres() async {
+    final db = await database;
+    final rows = await db
+        .rawQuery('SELECT nom_n FROM Nourriture WHERE motif_n="concentre";');
+    print("done {$rows}");
+  }
 }

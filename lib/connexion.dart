@@ -95,8 +95,7 @@ class ConnexionState extends State<Connexion> {
                 minWidth: 2,
                 padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
                 onPressed: () async {
-                  await BagratyDatabase()
-                      .seConnecter(tel_ex: int.parse(tel.text));
+                  await BagratyDatabase().seConnecter(tel: int.parse(tel.text));
                   print("connecté");
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => const Menu()));

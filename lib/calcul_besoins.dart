@@ -280,7 +280,7 @@ class CalculBesoins extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const PopupCardFourrage()));
+                      builder: (context) => const PopupCardfourrage()));
                   // ignore: avoid_print
                   print("cliqued");
                 },

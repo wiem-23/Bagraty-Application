@@ -123,9 +123,11 @@ class _CustomDropdownFormFieldState extends State<CustomDropdownFormField> {
   final List<String> _options = [
     'Paille de pois',
     'Cannes de Mais',
-    'Option 3'
+    'Option 3',
+    'Option 3',
+    'Option 3',
+    'Option 3',
   ];
-
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(

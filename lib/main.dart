@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:bagraty_project/Nourriture.dart';
+import 'package:bagraty_project/calcul_besoins.dart';
 import 'package:bagraty_project/connexion.dart';
 import 'package:bagraty_project/inscription.dart';
+import 'package:bagraty_project/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (const MaterialApp(
-      home: InscriptionExp(),
+      home: Nourriture(),
     ));
   }
 }

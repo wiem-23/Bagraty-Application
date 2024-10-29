@@ -1,14 +1,35 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unnecessary_new
 
+import 'package:bagraty_project/Nourriture.dart';
+import 'package:bagraty_project/dbBagraty.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class PopupCardFourrage extends StatelessWidget {
-  const PopupCardFourrage({super.key});
+class Fourrage {
+  int id_n;
+  String nom_n;
 
+  Fourrage({required this.id_n, required this.nom_n});
+
+  Map<String, dynamic> toMap() {
+    return {'id_n': id_n, 'nom_n': nom_n};
+  }
+}
+
+class PopupCardfourrage extends StatefulWidget {
+  const PopupCardfourrage({super.key});
+  @override
+  State<StatefulWidget> createState() {
+    // ignore: no_logic_in_create_state
+    return PopupcardfourrageState();
+  }
+}
+
+class PopupcardfourrageState extends State<PopupCardfourrage> {
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
+    return IntrinsicHeight(
+        child: ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: math.min(450, MediaQuery.sizeOf(context).width - 16.0),
         minHeight: math.min(300, MediaQuery.sizeOf(context).width - 16.0),
@@ -104,7 +125,7 @@ class PopupCardFourrage extends StatelessWidget {
           const SizedBox(height: 30.0),
         ],
       ),
-    );
+    ));
   }
 }
 
@@ -119,51 +140,81 @@ class CustomDropdownFormField extends StatefulWidget {
 
 class _CustomDropdownFormFieldState extends State<CustomDropdownFormField> {
   String? _selectedValue;
-  final List<String> _options = [
-    'Paille de pois',
-    'Cannes de Mais',
-    'Option 3'
-  ];
+  var fourragesList = BagratyDatabase().listeFourrages();
+
+  @override
+  void initState() {
+    super.initState();
+
+    BagratyDatabase().listeFourrages().then((value) {
+      print("entred");
+      setState(() {
+        value.map((element) {
+          [].add(const DropdownMenuItem<String?>(
+            // ignore: collection_methods_unrelated_type
+            child: Text(''),
+          ) as String);
+          /*   Fourrage(id_n: element['id_n'], nom_n: element["nom_n"]) */
+          /* .add(
+              DropdownMenuItem<String?>(
+            value: element[element['id_n'].toString()],
+            // ignore: collection_methods_unrelated_type
+            child: Text(element[{'nom_n'}].toString()),
+          ));  */
+          print(fourragesList);
+        });
+      });
+    }).catchError((error) {
+      print(error);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      dropdownColor: const Color.fromARGB(255, 186, 235, 247),
-      focusColor: const Color.fromARGB(255, 255, 255, 255),
-      value: _selectedValue,
-      hint: const Text(
-        'Aliment',
-        style: TextStyle(
-            color: Color(0XFF035B6F),
-            fontSize: 16,
-            fontWeight: FontWeight.bold),
-      ),
-      icon: const Icon(Icons.arrow_drop_down),
-      iconSize: 24,
-      elevation: 18,
-      style: const TextStyle(color: Color(0XFF035B6F)),
-      decoration: const InputDecoration(
-          focusColor: Color(0XFF035B6F),
-          hoverColor: Colors.white,
-          icon: Icon(
-            Icons.map,
-            color: Color(0XFF035B6F),
+    return IntrinsicHeight(
+        child: Row(
+      children: [
+        DropdownButtonFormField<String>(
+          dropdownColor: const Color.fromARGB(255, 186, 235, 247),
+          focusColor: const Color.fromARGB(255, 255, 255, 255),
+          value: _selectedValue,
+          hint: const Text(
+            'Aliment',
+            style: TextStyle(
+                color: Color(0XFF035B6F),
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
           ),
-          hintStyle: TextStyle(color: Color.fromARGB(255, 52, 53, 53)),
-          fillColor: Color.fromARGB(255, 255, 255, 255),
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0XFF035B6F)))),
-      onChanged: (String? newValue) {
-        setState(() {
-          _selectedValue = newValue;
-        });
-      },
-      items: _options.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
+          icon: const Icon(Icons.arrow_drop_down),
+          iconSize: 24,
+          elevation: 18,
+          style: const TextStyle(color: Color(0XFF035B6F)),
+          decoration: const InputDecoration(
+              focusColor: Color(0XFF035B6F),
+              hoverColor: Colors.white,
+              icon: Icon(
+                Icons.map,
+                color: Color(0XFF035B6F),
+              ),
+              hintStyle: TextStyle(color: Color.fromARGB(255, 52, 53, 53)),
+              fillColor: Color.fromARGB(255, 255, 255, 255),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0XFF035B6F)))),
+          onChanged: (newValue) {
+            setState(() {
+              _selectedValue = newValue;
+            });
+          },
+          items:
+              ["fourragesList"].map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+        /*  Text('$fourragesList') */
+      ],
+    ));
   }
 }
