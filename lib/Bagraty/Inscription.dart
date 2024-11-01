@@ -1,22 +1,17 @@
-// ignore_for_file: non_constant_identifier_names, avoid_print
+// ignore_for_file: non_constant_identifier_names, avoid_print, unused_field
 
-import 'package:bagraty_project/connexion.dart';
-import 'package:bagraty_project/dbBagraty.dart';
-import 'package:bagraty_project/menu.dart';
-import 'package:bagraty_project/resultat.dart';
+import 'package:bagraty_project/Bagraty/menu.dart';
+import 'package:bagraty_project/Bagraty/connexion.dart';
+import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 
 import 'package:flutter/material.dart';
 
 bool error = false, success = false;
+String message = "";
 
 // ignore: must_be_immutable
 class InscriptionExp extends StatefulWidget {
   const InscriptionExp({super.key});
-  void initState() {
-    error = false;
-
-    success = false;
-  }
 
   @override
   State<StatefulWidget> createState() {
@@ -26,20 +21,22 @@ class InscriptionExp extends StatefulWidget {
 }
 
 class InscriptionExpState extends State<InscriptionExp> {
+  @override
+  void initState() {
+    super.initState();
+
+    message = 'vide';
+  }
+
   List<Map<String, dynamic>> _exp = [];
   void _refreshExploitants() async {
-    final data = await BagratyDatabase().getItems();
+    final data = await SQLHelper.getItems();
     setState(() {
       _exp = data;
     });
   }
 
   @override
-  void initState() {
-    super.initState();
-    _refreshExploitants(); // Loading the diary when the app starts
-  }
-
   final TextEditingController nom_exploitant = TextEditingController();
   final TextEditingController nbr_vache = TextEditingController();
   final TextEditingController gouvernorat = TextEditingController();
@@ -158,17 +155,23 @@ class InscriptionExpState extends State<InscriptionExp> {
             minWidth: 2,
             padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
             onPressed: () async {
-              await BagratyDatabase().insertData(
+              await SQLHelper().insertExploitantData(
                 nom_ex: nom_exploitant.text,
                 nbr_vache: int.parse(nbr_vache.text),
                 gov_ex: gouvernorat.text,
                 tel_ex: int.parse(tel.text),
               );
-
+              setState(() {
+                message = 'exploitant inscrit avec succés';
+              });
               //  final rows = await db.query('my_table');
               // ignore: duplicate_ignore
               // ignore: avoid_print
-              print("exp added");
+              print(message);
+              if (message == 'exploitant inscrit avec succés') {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Connexion()));
+              }
             },
             child: const Text(
               "S'inscrire",

@@ -1,10 +1,11 @@
 import 'dart:io';
 
-import 'package:bagraty_project/Nourriture.dart';
-import 'package:bagraty_project/calcul_besoins.dart';
-import 'package:bagraty_project/connexion.dart';
-import 'package:bagraty_project/inscription.dart';
-import 'package:bagraty_project/menu.dart';
+import 'package:bagraty_project/Bagraty/AjoutVache.dart';
+import 'package:bagraty_project/Bagraty/BasicPage.dart';
+import 'package:bagraty_project/Bagraty/calculBesoinsConcentes.dart';
+import 'package:bagraty_project/Bagraty/calculBesoinsFourrages.dart';
+import 'package:bagraty_project/Bagraty/Apports.dart';
+
 import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -23,8 +24,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (const MaterialApp(
-      home: Nourriture(),
-    ));
+    return (MaterialApp(home: Ajoutvache()));
   }
 }

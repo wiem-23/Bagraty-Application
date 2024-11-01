@@ -1,6 +1,7 @@
-import 'package:bagraty_project/dbBagraty.dart';
-import 'package:bagraty_project/inscription.dart';
-import 'package:bagraty_project/menu.dart';
+// ignore_for_file: non_constant_identifier_names
+
+import 'package:bagraty_project/bagraty/inscription.dart';
+
 import 'package:flutter/material.dart';
 
 class Conseils extends StatefulWidget {

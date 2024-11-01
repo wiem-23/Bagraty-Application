@@ -1,9 +1,8 @@
-import 'dart:io';
+import 'package:bagraty_project/Bagraty/approvisionnement.dart';
+import 'package:bagraty_project/Bagraty/calculBesoinsFourrages.dart';
 
-import 'package:bagraty_project/approvisionnement.dart';
-import 'package:bagraty_project/calcul_besoins.dart';
-import 'package:bagraty_project/conseils.dart';
-import 'package:flutter/foundation.dart';
+import 'package:bagraty_project/Bagraty/conseils.dart';
+
 import 'package:flutter/material.dart';
 
 int _selectedIndex = 0;
@@ -74,7 +73,8 @@ class Menu extends StatelessWidget {
                         ),
                         child: MaterialButton(onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const CalculBesoins()));
+                              builder: (context) =>
+                                  const CalculBesoinsFourrages()));
                         }),
                       ),
                       const Text(

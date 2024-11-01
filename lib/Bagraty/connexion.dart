@@ -1,15 +1,12 @@
-import 'package:bagraty_project/dbBagraty.dart';
-import 'package:bagraty_project/inscription.dart';
-import 'package:bagraty_project/menu.dart';
+// ignore_for_file: avoid_print, use_build_context_synchronously, non_constant_identifier_names
+
+import 'package:bagraty_project/Bagraty/menu.dart';
+import 'package:bagraty_project/Bagraty/sqlHelper.dart';
+
 import 'package:flutter/material.dart';
 
 class Connexion extends StatefulWidget {
   const Connexion({super.key});
-  void initState() {
-    error = false;
-
-    success = false;
-  }
 
   @override
   State<StatefulWidget> createState() {
@@ -95,7 +92,7 @@ class ConnexionState extends State<Connexion> {
                 minWidth: 2,
                 padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
                 onPressed: () async {
-                  await BagratyDatabase().seConnecter(tel: int.parse(tel.text));
+                  await SQLHelper().seConnecter(tel: int.parse(tel.text));
                   print("connecté");
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => const Menu()));

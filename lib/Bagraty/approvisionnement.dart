@@ -1,6 +1,5 @@
-import 'package:bagraty_project/dbBagraty.dart';
-import 'package:bagraty_project/inscription.dart';
-import 'package:bagraty_project/menu.dart';
+import 'package:bagraty_project/bagraty/inscription.dart';
+
 import 'package:flutter/material.dart';
 
 class Approvisionnement extends StatefulWidget {
@@ -20,6 +19,7 @@ class Approvisionnement extends StatefulWidget {
 
 class ApprovisionnementState extends State<Approvisionnement> {
   final TextEditingController tel = TextEditingController();
+  // ignore: non_constant_identifier_names
   final TextEditingController nom_exploitant = TextEditingController();
   @override
   Widget build(BuildContext context) {
