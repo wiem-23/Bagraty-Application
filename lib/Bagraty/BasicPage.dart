@@ -1,3 +1,4 @@
+import 'package:bagraty_project/Bagraty/first_page.dart';
 import 'package:bagraty_project/bagraty/inscription.dart';
 import 'package:bagraty_project/Bagraty/menu.dart';
 
@@ -29,7 +30,7 @@ class BasicpageState extends State<Basicpage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Menu(),
+    FirstPage(),
     CalculBesoinsConcentres(),
     CalculBesoinsFourrages(),
   ];
@@ -69,8 +70,8 @@ class BasicpageState extends State<Basicpage> {
               selected: _selectedIndex == 0,
               onTap: () {
                 // Update the state of the app
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Menu()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FirstPage()));
                 Navigator.pop(context);
               },
             ),

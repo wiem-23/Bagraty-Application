@@ -18,6 +18,7 @@ class Connexion extends StatefulWidget {
 class ConnexionState extends State<Connexion> {
   final TextEditingController tel = TextEditingController();
   final TextEditingController nom_exploitant = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,10 +93,19 @@ class ConnexionState extends State<Connexion> {
                 minWidth: 2,
                 padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
                 onPressed: () async {
+                  WidgetsFlutterBinding.ensureInitialized();
+
+                  SQLHelper db = SQLHelper();
+
+                  await db.setCurrentExp(1);
+
+                  int? currentUserId = await db.getCurrentExpId();
+
+                  print('ID de l\'utilisateur actuel : $currentUserId');
                   await SQLHelper().seConnecter(tel: int.parse(tel.text));
-                  print("connecté");
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const Menu()));
+                  print("connecté ${currentUserId}");
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Menu(id: currentUserId)));
                 },
                 child: const Text(
                   "Se connecter",

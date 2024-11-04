@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:bagraty_project/Bagraty/AjoutVache.dart';
 import 'package:bagraty_project/Bagraty/BasicPage.dart';
+import 'package:bagraty_project/Bagraty/Inscription.dart';
 import 'package:bagraty_project/Bagraty/calculBesoinsConcentes.dart';
 import 'package:bagraty_project/Bagraty/calculBesoinsFourrages.dart';
 import 'package:bagraty_project/Bagraty/Apports.dart';
+import 'package:bagraty_project/Bagraty/connexion.dart';
+import 'package:bagraty_project/Bagraty/menu.dart';
 
 import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -24,6 +27,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (MaterialApp(home: Ajoutvache()));
+    return (MaterialApp(home: Connexion()));
   }
 }

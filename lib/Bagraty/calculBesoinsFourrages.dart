@@ -230,7 +230,7 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
                       MyTableWidget(id_n: id);
                     },
                     child: Text(
-                      id == null ? 'Ajouter Concentré' : 'Ajouter',
+                      id == null ? 'Ajouter Fourrage' : 'Ajouter',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -297,7 +297,7 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
 
 // Insert a new journal to the database
   Future<void> _addItem() async {
-    /*  await SQLHelper.createFourrageItem(
+    await SQLHelper.createFourrageItem(
         motif_n: "fourrage",
         nom_n: _nomController.text,
         ms_n: double.parse(_msController.text),
@@ -307,6 +307,7 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: int.parse(_ndfController.text),
         quantite: 0);
     print("add");
+    /* 
      await SQLHelper.createItem(
         id_n: 2,
         motif_n: "concentre",

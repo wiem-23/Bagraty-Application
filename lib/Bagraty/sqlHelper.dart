@@ -1,6 +1,7 @@
-// ignore_for_file: equal_keys_in_map, prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
+// ignore_for_file: equal_keys_in_map, prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, avoid_print
 import 'dart:ffi';
 
+import 'package:bagraty_project/Bagraty/ExpSession.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -10,6 +11,8 @@ import 'package:sqflite/sqflite.dart' as sql;
 
 class SQLHelper {
   static Future<void> createTables(sql.Database database) async {
+    await database.execute("PRAGMA foreign_keys = ON");
+    print("PRAGMA foreign_keys = ON");
     await database.execute(
         """CREATE TABLE Exploitant(id_ex INTEGER PRIMARY KEY AUTOINCREMENT, 
 nom_ex  TEXT NOT NULL ,
@@ -20,16 +23,22 @@ tel_ex INTEGER NOT NULL
       """);
     await database.execute("""CREATE TABLE Vache(
 id_v INTEGER  PRIMARY KEY AUTOINCREMENT, 
+parite TEXT,
 id_m  NOT NULL , 
 id_p  NOT NULL , 
 poid REAL NOT NULL, 
 age INTEGER NOT NULL , 
 prod_lait INTEGER  , 
 mois_g INTEGER NOT NULL,
-temperature INTEGER NOT NULL,
-humidite INTEGER NOT NULL,
-ci_v  REAL NOT NULL,
-date DATE
+temperature INTEGER,
+humidite REAL ,
+ci_v  REAL ,
+thi_v REAL ,
+date DATE,
+id_ex INTEGER NOT NULL,
+id_n INTEGER NOT NULL,
+FOREIGN KEY(id_ex) REFERENCES Exploitant(id_ex) ,
+FOREIGN KEY(id_n) REFERENCES Nourriture(id_n)              
 )
       """);
     await database.execute("""CREATE TABLE Nourriture(
@@ -43,6 +52,7 @@ pdie_n INTEGER NOT NULL ,
 ndf_n INTEGER NOT NULL,
 quantite INTEGER )
       """);
+    print("tables created");
   }
 // id: the id of a item
 // title, description: name and description of your activity
@@ -50,12 +60,49 @@ quantite INTEGER )
 
   static Future<sql.Database> db() async {
     return sql.openDatabase(
-      'dbbagraty.db',
-      version: 2,
+      'DB_Bagraty_db.db',
+      version: 1,
       onCreate: (sql.Database database, int version) async {
         await createTables(database);
       },
     );
+  }
+
+  Future insertVacheData(
+      {required int id_m,
+      required int id_p,
+      required int poid,
+      required int age,
+      required int mois_g,
+      required int prod_lait,
+      required int temperature,
+      required double humidite,
+      required String date,
+      required int id_ex,
+      required int id_n,
+      required int id_v}) async {
+    final db = await SQLHelper.db();
+    await db.insert(
+      "Vache",
+      {
+        "id_v": id_v,
+        "id_m": id_m,
+        "id_p": id_p,
+        "poid": poid,
+        "age": age,
+        "mois_g": mois_g,
+        "prod_lait": prod_lait,
+        "temperature": temperature,
+        "humidite": humidite,
+        "date": date,
+        'id_ex': id_ex,
+        'id_n': id_n,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    // ignore: avoid_print, unnecessary_brace_in_string_interps
+    print("${id_m} vache added successfully");
+    return "added";
   }
 
   // Create new item (journal)
@@ -145,13 +192,13 @@ quantite INTEGER )
   static Future<List<Map<String, dynamic>>> getConcentresItems() async {
     final db = await SQLHelper.db();
     return db.query('Nourriture',
-        where: "motif_n = 'concentre'", orderBy: "id_n");
+        where: "motif_n = 'concentre'", orderBy: "nom_n");
   }
 
   static Future<List<Map<String, dynamic>>> getFourragesItems() async {
     final db = await SQLHelper.db();
     return db.query('Nourriture',
-        where: "motif_n = 'fourrage'", orderBy: "id_n");
+        where: "motif_n = 'fourrage'", orderBy: "nom_n");
   }
 
   // Read a single item by id
@@ -196,6 +243,11 @@ quantite INTEGER )
     return db.query('Nourriture', where: "id_n = ?", whereArgs: [id], limit: 1);
   }
 
+  static Future<List<Map<String, dynamic>>> getVache({required int id}) async {
+    final db = await SQLHelper.db();
+    return db.query('Vache', where: "id_v = ?", whereArgs: [id], limit: 1);
+  }
+
   Future insertExploitantData({nom_ex, nbr_vache, gov_ex, tel_ex}) async {
     final db = await SQLHelper.db();
     await db.insert("Exploitant", {
@@ -214,6 +266,14 @@ quantite INTEGER )
     await db.rawQuery('SELECT * FROM Exploitant WHERE tel_ex=$tel ');
 
     return print({tel});
+  }
+
+  Future<int?> getCurrentExpId() async {
+    return ExpSession.currentExpId;
+  }
+
+  Future<void> setCurrentExp(int expId) async {
+    ExpSession.currentExpId = expId; // Stocke l'ID de l'utilisateur actif
   }
 
   static Future<List<Map<String, dynamic>>> getItems() async {
@@ -241,9 +301,9 @@ quantite INTEGER )
   Future<double?> _calcUFLTotal() async {
     uflList = await SQLHelper().calculateUFLTotal();
 
-    uflList.forEach((nourriture) {
+    for (var nourriture in uflList) {
       _totalufl = (_totalufl + nourriture['ufl_n']);
-    });
+    }
     print('here$_totalufl');
     return _totalufl!;
   }
@@ -264,19 +324,6 @@ quantite INTEGER )
     return result.toList();
   }
 
-  /* double _totalms = 0.0;
-  List MSList = [];
-
-  Future<double?> _calcMSTotal() async {
-    MSList = await SQLHelper().calculateMSTotal();
-
-    MSList.forEach((nourriture) {
-      _totalms = (_totalms + nourriture['ms_n']);
-    });
-    print('here$_totalms');
-    return _totalms;
-  }
- */
   Future<List> calculatePDIETotal() async {
     final db = await SQLHelper.db();
     var result =
@@ -291,9 +338,9 @@ quantite INTEGER )
   Future<double?> _calcPDIETotal() async {
     PDIEList = await SQLHelper().calculatePDIETotal();
 
-    PDIEList.forEach((nourriture) {
+    for (var nourriture in PDIEList) {
       _totalpdie = (_totalpdie + nourriture['pdie_n']);
-    });
+    }
     print('here$_totalpdie');
     return _totalpdie;
   }
@@ -312,16 +359,71 @@ quantite INTEGER )
   Future<double?> _calcPDINTotal() async {
     PDINList = await SQLHelper().calculatePDINTotal();
 
-    PDINList.forEach((nourriture) {
+    for (var nourriture in PDINList) {
       _totalpdin = (_totalpdin + nourriture['pdin_n']);
-    });
+    }
     print('here$_totalpdin');
     return _totalpdin;
   }
 
-  Future getQt() async {
+  static Future<int> updateVache(
+      {required int id_v, double? ci_v, double? thi_v}) async {
     final db = await SQLHelper.db();
-    return db.rawQuery("SELECT quantite FROM Nourriture WHERE nom_n='Azolla'");
+
+    final data = {
+      'id_v': id_v,
+      'thi_v': thi_v,
+      'ci_v': ci_v,
+    };
+
+    final result =
+        await db.update('Vache', data, where: "id_v = ?", whereArgs: [id_v]);
+    return result;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculateCI(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  double _ci = 0.0;
+  List item = [];
+  Future<double?> calcCITotal({int? id}) async {
+    item = await SQLHelper.calculateCI(id: id);
+
+    for (var vache in item) {
+      _ci = (0.025 * vache['poid']) + (0.15 * vache['prod_lait']);
+    }
+    print('ci  ===>$_ci');
+    return _ci;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculateTHI(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  double _thi = 0.0;
+  List itemTHI = [];
+
+  Future<double?> calcTHITotal({int? id}) async {
+    itemTHI = await SQLHelper.calculateTHI(id: id);
+
+    for (var vache in itemTHI) {
+      _thi = (0.8 * vache['temperature']) +
+          ((vache['humidite'] / 100) * (vache['temperature'] - 14.4)) +
+          46.4;
+      print('herethi=============================================>$_thi');
+      print(id);
+    }
+    print('herethi===>$_thi');
+    return _thi;
   }
 }
 
@@ -419,58 +521,3 @@ class MyTableWidget extends StatelessWidget {
     );
   }
 }
-
-/* class QantiteLaitWidget extends StatelessWidget {
-  const QantiteLaitWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return DataTable(
-        columnSpacing: 30,
-        horizontalMargin: 20.0,
-        headingRowColor: const WidgetStatePropertyAll(Color(0XFF035B6F)),
-        dataRowColor: const WidgetStatePropertyAll(Colors.white),
-        columns: [
-          DataColumn(
-              headingRowAlignment: MainAxisAlignment.center,
-              label: Text(
-                "UFL",
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
-                textAlign: TextAlign.end,
-              )),
-          DataColumn(
-              headingRowAlignment: MainAxisAlignment.center,
-              label: Text(
-                "PDIE",
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
-                textAlign: TextAlign.end,
-              )),
-          DataColumn(
-              headingRowAlignment: MainAxisAlignment.center,
-              label: Text(
-                "PDIN",
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
-                textAlign: TextAlign.end,
-              )),
-        ],
-        rows: [
-          DataRow(cells: [
-            DataCell(Text(,
-                style: TextStyle(
-                    fontStyle: FontStyle.italic, color: Color(0XFF035B6F)))),
-            DataCell(Text(
-                ('e["pdie_n"] * e["quantite"] * (e["ms_n"] / 100)').toString(),
-                style: TextStyle(
-                    fontStyle: FontStyle.italic, color: Color(0XFF035B6F)))),
-            DataCell(Text(
-                ('e["pdin_n"] * e["quantite"] * (e["ms_n"] / 100)').toString(),
-                style: TextStyle(
-                    fontStyle: FontStyle.italic, color: Color(0XFF035B6F)))),
-          ])
-        ]);
-  }
-}
- */

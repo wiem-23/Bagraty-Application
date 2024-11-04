@@ -1,5 +1,6 @@
-// ignore_for_file: non_constant_identifier_names, avoid_print, unused_field
+// ignore_for_file: non_constant_identifier_names, avoid_print, unused_field, prefer_typing_uninitialized_variables
 
+import 'package:bagraty_project/Bagraty/CalculCI.dart';
 import 'package:bagraty_project/Bagraty/menu.dart';
 import 'package:bagraty_project/Bagraty/connexion.dart';
 import 'package:bagraty_project/Bagraty/sqlHelper.dart';
@@ -7,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 bool error = false, success = false;
-String message = "";
 
 // ignore: must_be_immutable
 class Ajoutvache extends StatefulWidget {
@@ -24,8 +24,8 @@ class AjoutvacheState extends State<Ajoutvache> {
   @override
   void initState() {
     super.initState();
-
-    message = 'vide';
+    error = false;
+    success = false;
   }
 
   List<Map<String, dynamic>> _exp = [];
@@ -46,7 +46,7 @@ class AjoutvacheState extends State<Ajoutvache> {
   final TextEditingController mois_g = TextEditingController();
   final TextEditingController temperature = TextEditingController();
   final TextEditingController humidite = TextEditingController();
-  final TextEditingController date = TextEditingController();
+
   TextEditingController _dateController = TextEditingController();
   String? _selectedOption;
 
@@ -76,7 +76,7 @@ class AjoutvacheState extends State<Ajoutvache> {
       // height: MediaQuery.of(context).size.height,
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.fromLTRB(80.0, 0, 80.0, 0),
+      padding: const EdgeInsets.fromLTRB(50.0, 0, 50.0, 0),
       decoration: const BoxDecoration(
           gradient: LinearGradient(
         begin: Alignment.topLeft,
@@ -160,7 +160,7 @@ class AjoutvacheState extends State<Ajoutvache> {
               Icons.man_2_outlined,
               color: Colors.white,
             ),
-            labelText: 'Poidst',
+            labelText: 'Poids',
             labelStyle: TextStyle(
               color: Color.fromARGB(255, 255, 255, 255),
             ),
@@ -325,23 +325,50 @@ class AjoutvacheState extends State<Ajoutvache> {
             minWidth: 2,
             padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
             onPressed: () async {
-              /*      await SQLHelper().insertExploitantData(
-                nom_ex: nom_exploitant.text,
-                nbr_vache: int.parse(nbr_vache.text),
-                gov_ex: gouvernorat.text,
-                tel_ex: int.parse(tel.text),
-              );
-              setState(() {
-                message = 'exploitant inscrit avec succés';
-              });
+              WidgetsFlutterBinding.ensureInitialized();
+
+              SQLHelper db = SQLHelper();
+
+              await db.setCurrentExp(1);
+
+              int? currentUserId = await db.getCurrentExpId();
+
+              print('ID de l\'utilisateur actuel : $currentUserId');
+
+              await SQLHelper().insertVacheData(
+                  id_v: int.parse(id_v.text),
+                  id_m: int.parse(id_m.text),
+                  id_p: int.parse(id_p.text),
+                  id_ex: int.parse(currentUserId.toString()),
+                  poid: int.parse(poids_v.text),
+                  age: int.parse(age.text),
+                  prod_lait: int.parse(prod_lait.text),
+                  mois_g: int.parse(mois_g.text),
+                  humidite: double.parse(humidite.text),
+                  temperature: int.parse(temperature.text),
+                  date: _dateController.text,
+                  id_n: 0);
+              var _ci = await SQLHelper().calcCITotal(id: int.parse(id_v.text));
+              print("ci =====> ${_ci}");
+              var _thi =
+                  await SQLHelper().calcTHITotal(id: int.parse(id_v.text));
+              print("thi ====> ${_thi}");
+              await SQLHelper.updateVache(
+                  id_v: int.parse(id_v.text), ci_v: _ci, thi_v: _thi);
+              var res = await SQLHelper.getVache(id: int.parse(id_v.text));
+
+              print('vache updated');
+              print(res);
               //  final rows = await db.query('my_table');
               // ignore: duplicate_ignore
               // ignore: avoid_print
-              print(message);
-              if (message == 'exploitant inscrit avec succés') {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Connexion()));
-              } */
+
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Calculci(
+                        ci: _ci,
+                        thi: _thi,
+                        id: id_v,
+                      )));
             },
             child: const Text(
               "Calculer",

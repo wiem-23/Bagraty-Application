@@ -161,17 +161,14 @@ class InscriptionExpState extends State<InscriptionExp> {
                 gov_ex: gouvernorat.text,
                 tel_ex: int.parse(tel.text),
               );
-              setState(() {
-                message = 'exploitant inscrit avec succés';
-              });
+
               //  final rows = await db.query('my_table');
               // ignore: duplicate_ignore
               // ignore: avoid_print
               print(message);
-              if (message == 'exploitant inscrit avec succés') {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Connexion()));
-              }
+
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const Connexion()));
             },
             child: const Text(
               "S'inscrire",

@@ -1,3 +1,6 @@
+// ignore_for_file: unused_local_variable
+
+import 'package:bagraty_project/Bagraty/AjoutVache.dart';
 import 'package:bagraty_project/Bagraty/approvisionnement.dart';
 import 'package:bagraty_project/Bagraty/calculBesoinsFourrages.dart';
 
@@ -14,9 +17,18 @@ void _onItemTapped(int index) {
 
 void setState(Null Function() param0) {}
 
-class Menu extends StatelessWidget {
-  const Menu({super.key});
+class Menu extends StatefulWidget {
+  int? id;
+  Menu({super.key, required id});
 
+  @override
+  State<StatefulWidget> createState() {
+    // ignore: no_logic_in_create_state
+    return MenuState();
+  }
+}
+
+class MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,8 +85,7 @@ class Menu extends StatelessWidget {
                         ),
                         child: MaterialButton(onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const CalculBesoinsFourrages()));
+                              builder: (context) => Ajoutvache()));
                         }),
                       ),
                       const Text(
