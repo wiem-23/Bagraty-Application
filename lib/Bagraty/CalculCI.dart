@@ -1,3 +1,4 @@
+/* import 'package:bagraty_project/Bagraty/Apports.dart';
 import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 import 'package:flutter/material.dart';
 
@@ -24,14 +25,27 @@ List<Map<String, dynamic>> _vache = [];
      
     });
   }
+double ci=0.0;
+  Double? CI(){     ci = await SQLHelper().calcCITotal(id: id);
+              print("ci =====> ${ci}");return ci;}
     void _showResult(int? id) async {
     if (id != null) {
      
       final existingVache =
           _vache.firstWhere((element) => element['id_v'] == id);
-  
+       
+                 var thi =
+                     await SQLHelper().calcTHITotal(id: id);
+              print("thi ====> ${thi}");
+              await SQLHelper.updateVache(
+                  id_v: id, ci_v: ci, thi_v: thi);
+              var res = await SQLHelper.getVache(id: id);
+              
+              
+
     }
 
+   
     showModalBottomSheet(
         context: context,
         elevation: 6,
@@ -48,7 +62,7 @@ List<Map<String, dynamic>> _vache = [];
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(ci)
+                  Text(ci),
                   SizedBox(
                     height: 50,
                   ),
@@ -99,3 +113,4 @@ List<Map<String, dynamic>> _vache = [];
             )));
   }
 }
+ */

@@ -1,12 +1,8 @@
-// ignore_for_file: equal_keys_in_map, prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, avoid_print
-import 'dart:ffi';
+// ignore_for_file: equal_keys_in_map, prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element, avoid_print, curly_braces_in_flow_control_structures
 
 import 'package:bagraty_project/Bagraty/ExpSession.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-
-import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 
 class SQLHelper {
@@ -34,7 +30,7 @@ temperature INTEGER,
 humidite REAL ,
 ci_v  REAL ,
 thi_v REAL ,
-date DATE,
+date TEXT,
 id_ex INTEGER NOT NULL,
 id_n INTEGER NOT NULL,
 FOREIGN KEY(id_ex) REFERENCES Exploitant(id_ex) ,
@@ -60,7 +56,7 @@ quantite INTEGER )
 
   static Future<sql.Database> db() async {
     return sql.openDatabase(
-      'DB_Bagraty_db.db',
+      'DB_Bagraty.db',
       version: 1,
       onCreate: (sql.Database database, int version) async {
         await createTables(database);
@@ -69,7 +65,8 @@ quantite INTEGER )
   }
 
   Future insertVacheData(
-      {required int id_m,
+      {required String? parite,
+      required int id_m,
       required int id_p,
       required int poid,
       required int age,
@@ -97,6 +94,7 @@ quantite INTEGER )
         "date": date,
         'id_ex': id_ex,
         'id_n': id_n,
+        'parite': parite,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -381,26 +379,6 @@ quantite INTEGER )
     return result;
   }
 
-  static Future<List<Map<String, dynamic>>> calculateCI(
-      {required int? id}) async {
-    final db = await SQLHelper.db();
-    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
-
-    return result;
-  }
-
-  double _ci = 0.0;
-  List item = [];
-  Future<double?> calcCITotal({int? id}) async {
-    item = await SQLHelper.calculateCI(id: id);
-
-    for (var vache in item) {
-      _ci = (0.025 * vache['poid']) + (0.15 * vache['prod_lait']);
-    }
-    print('ci  ===>$_ci');
-    return _ci;
-  }
-
   static Future<List<Map<String, dynamic>>> calculateTHI(
       {required int? id}) async {
     final db = await SQLHelper.db();
@@ -419,11 +397,268 @@ quantite INTEGER )
       _thi = (0.8 * vache['temperature']) +
           ((vache['humidite'] / 100) * (vache['temperature'] - 14.4)) +
           46.4;
-      print('herethi=============================================>$_thi');
-      print(id);
     }
-    print('herethi===>$_thi');
+
     return _thi;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculateCI(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  double _ciReduit = 0.0;
+  double _ci = 0.0;
+  List item = [];
+  int thiSeuil = 68;
+  Future<double?> calcCITotal({int? id}) async {
+    item = await SQLHelper.calculateCI(id: id);
+
+    for (var vache in item) {
+      if (vache['parite'] == 'tarie' && _thi < 68) {
+        // _ci = (0.025 * vache['poid']) + (0.15 * vache['prod_lait']);
+
+        _ci = 1.4 * ((vache['poid'] / 100) + 2) - 1.5;
+        print('vache tarie');
+      } else if (vache['parite'] == 'primipare' && _thi < 68 ||
+          vache['parite'] == 'multipare' && _thi < 68) {
+        print('vache primipare ou multipare');
+        _ci = 1.4 * ((vache['poid'] / 100) + 2) + (0.3 * vache['prod_lait']);
+      } else if (_thi > 68 && vache['parite'] == 'tarie') {
+        _ciReduit = (_thi - thiSeuil) * 0.45;
+        _ci = (1.4 * ((vache['poid'] / 100) + 2) - 1.5) - _ciReduit;
+      } else if (_thi > 68 &&
+          (vache['parite'] == 'primipare' || vache['parite'] == 'multipare')) {
+        _ciReduit = (_thi - thiSeuil) * 0.45;
+        _ci = (1.4 * ((vache['poid'] / 100) + 2) + (0.3 * vache['prod_lait'])) -
+            _ciReduit;
+      }
+    }
+    print('ci  ===>$_ci');
+    return _ci;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculateUFLBE(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  double _BE = 0.0;
+  List itemBE = [];
+
+  Future<double> besoinsEntretienUFL({int? id}) async {
+    itemBE = await SQLHelper.calculateUFLBE(id: id);
+
+    for (var vache in itemBE) {
+      _BE = 1.4 + 0.6 * (vache['poid'] / 100);
+    }
+
+    return _BE;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculateUFLBC(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  double _BC = 0.0;
+  List itemBC = [];
+
+  Future<double> besoinsCroissanceUFL({int? id}) async {
+    itemBC = await SQLHelper.calculateUFLBC(id: id);
+
+    for (var vache in itemBC) {
+      if (vache['age'] <= 24 && vache['age'] >= 28) {
+        _BC = 2.0;
+      } else if (vache['age'] <= 32 && vache['age'] >= 36) {
+        _BC = 1.3;
+      } else
+        _BC = 0.0;
+    }
+
+    return _BC;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculateUFLBG(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  double _BG = 0.0;
+  List itemBG = [];
+
+  Future<double> besoinsGestationUFL({int? id}) async {
+    itemBG = await SQLHelper.calculateUFLBG(id: id);
+
+    for (var vache in itemBG) {
+      if (vache['mois_g'] == 7) {
+        _BG = 0.9;
+      } else if (vache['mois_g'] == 8) {
+        _BG = 1.6;
+      } else if (vache['mois_g'] == 9) {
+        _BG = 2.6;
+      } else
+        _BG = 0.0;
+    }
+
+    return _BG;
+  }
+
+  double besoinsG = 0.0;
+  double besoinsC = 0.0;
+  double besoinsE = 0.0;
+  double besoinsT = 0.0;
+  Future<double?> besoinsTotauxUFL({int? id}) async {
+    besoinsG = await SQLHelper().besoinsGestationUFL(id: id);
+    besoinsC = await SQLHelper().besoinsCroissanceUFL(id: id);
+    besoinsE = await SQLHelper().besoinsEntretienUFL(id: id);
+
+    besoinsT = besoinsG + besoinsC + besoinsE;
+
+    return besoinsT;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculateUFLBL(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  double _BL = 0.0;
+  List itemBL = [];
+
+  Future<double> besoinsLactationUFL({int? id}) async {
+    itemBL = await SQLHelper.calculateUFLBL(id: id);
+
+    for (var vache in itemBL) {
+      _BL = vache['prod_lait'] * 0.45;
+    }
+
+    return _BL;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculatePDIBE(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  double _BEPDI = 0.0;
+  List itemBEPDI = [];
+
+  Future<double> besoinsEntretienPDI({int? id}) async {
+    itemBEPDI = await SQLHelper.calculatePDIBE(id: id);
+
+    for (var vache in itemBEPDI) {
+      _BEPDI = 95 + (0.6 * vache['poid']);
+    }
+
+    return _BEPDI;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculatePDIBC(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  int _BCPDI = 0;
+  List itemBCPDI = [];
+
+  Future<int> besoinsCroissancePDI({int? id}) async {
+    itemBCPDI = await SQLHelper.calculatePDIBC(id: id);
+
+    for (var vache in itemBCPDI) {
+      if (vache['age'] <= 24 && vache['age'] >= 28) {
+        _BCPDI = 240;
+      } else if (vache['age'] <= 32 && vache['age'] >= 36) {
+        _BCPDI = 140;
+      } else
+        _BCPDI = 0;
+    }
+
+    return _BCPDI;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculatePDIBG(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  int _BGPDI = 0;
+  List itemBGPDI = [];
+
+  Future<int> besoinsGestationPDI({int? id}) async {
+    itemBGPDI = await SQLHelper.calculatePDIBG(id: id);
+
+    for (var vache in itemBGPDI) {
+      if (vache['mois_g'] == 7) {
+        _BGPDI = 75;
+      } else if (vache['mois_g'] == 8) {
+        _BGPDI = 135;
+      } else if (vache['mois_g'] == 9) {
+        _BGPDI = 205;
+      } else
+        _BGPDI = 0;
+    }
+
+    return _BGPDI;
+  }
+
+  int besoinsGPDI = 0;
+  int besoinsCPDI = 0;
+  double besoinsEPDI = 0.0;
+  double besoinsTPDI = 0.0;
+  Future<double?> besoinsTotauxPDI({int? id}) async {
+    besoinsGPDI = await SQLHelper().besoinsGestationPDI(id: id);
+    besoinsCPDI = await SQLHelper().besoinsCroissancePDI(id: id);
+    besoinsEPDI = await SQLHelper().besoinsEntretienPDI(id: id);
+
+    besoinsTPDI = besoinsGPDI + besoinsCPDI + besoinsEPDI;
+
+    return besoinsTPDI;
+  }
+
+  static Future<List<Map<String, dynamic>>> calculatePDIBL(
+      {required int? id}) async {
+    final db = await SQLHelper.db();
+    var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
+
+    return result;
+  }
+
+  int _BLPDI = 0;
+  List itemBLPDI = [];
+
+  Future<int> besoinsLactationPDI({int? id}) async {
+    itemBLPDI = await SQLHelper.calculatePDIBL(id: id);
+
+    for (var vache in itemBLPDI) {
+      _BLPDI = vache['prod_lait'] * 48;
+    }
+
+    return _BLPDI;
   }
 }
 

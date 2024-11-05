@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously, non_constant_identifier_names
 
+import 'package:bagraty_project/Bagraty/Inscription.dart';
 import 'package:bagraty_project/Bagraty/menu.dart';
 import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 
@@ -85,37 +86,38 @@ class ConnexionState extends State<Connexion> {
               height: 40.0,
               color: Color.fromRGBO(0, 0, 0, 0),
             ),
-            MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                color: const Color(0xff708907),
-                minWidth: 2,
-                padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
-                onPressed: () async {
-                  WidgetsFlutterBinding.ensureInitialized();
+            Column(
+              children: [
+                MaterialButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    color: const Color(0xff708907),
+                    minWidth: 2,
+                    padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
+                    onPressed: () async {
+                      await SQLHelper().seConnecter(tel: int.parse(tel.text));
 
-                  SQLHelper db = SQLHelper();
-
-                  await db.setCurrentExp(1);
-
-                  int? currentUserId = await db.getCurrentExpId();
-
-                  print('ID de l\'utilisateur actuel : $currentUserId');
-                  await SQLHelper().seConnecter(tel: int.parse(tel.text));
-                  print("connecté ${currentUserId}");
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Menu(id: currentUserId)));
-                },
-                child: const Text(
-                  "Se connecter",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Color(0xffffffff),
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Menu()));
+                    },
+                    child: const Text(
+                      "Se connecter",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Color(0xffffffff),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => InscriptionExp()));
+                    },
+                    child: Text('creer un compte'))
+              ],
+            )
           ],
         ),
       ),

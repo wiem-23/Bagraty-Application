@@ -602,6 +602,7 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
 import 'dart:math';
 
 import 'package:bagraty_project/Bagraty/Apports.dart';
+import 'package:bagraty_project/Bagraty/calculRation.dart';
 import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 
@@ -685,11 +686,11 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
                       hoverColor: Color(0XFF035B6F),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   MaterialButton(
-                    padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                    padding: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                     minWidth: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -716,7 +717,7 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
                     },
                     child: Text(
                       id == null ? 'Ajouter fourrage' : 'Ajouter',
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
@@ -806,7 +807,7 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
                     height: 50,
                   ),
                   MaterialButton(
-                    padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
                     minWidth: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -833,7 +834,7 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
                     },
                     child: Text(
                       id == null ? 'Ajouter Concentré' : 'Ajouter',
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
@@ -861,22 +862,22 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
                 left: 15,
                 right: 15,
                 // this will prevent the soft keyboard from covering the text fields
-                bottom: MediaQuery.of(context).viewInsets.bottom + 50,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 20,
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   MyTableWidget(id_n: id),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   Apports(),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   MaterialButton(
-                    padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                    padding: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                     minWidth: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -910,7 +911,7 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         quantite: 0);
     print("add");
 
-    await SQLHelper.createItem(
+    /* await SQLHelper.createItem(
         id_n: 2,
         motif_n: "concentre",
         nom_n: "Pulpe de Betterave",
@@ -1090,7 +1091,7 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         pdie_n: 90,
         ndf_n: 425,
         quantite: 0);
-
+ */
     _refreshNourritures();
   }
 
@@ -1161,21 +1162,21 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
                         child: Row(
                           children: [
                             IconButton(
-                              color: Color(0XFF035B6F),
+                              color: const Color(0XFF035B6F),
                               iconSize: 18,
                               icon: const Icon(Icons.remove_red_eye),
                               onPressed: () =>
                                   _showTable(_nourritures[index]['id_n']),
                             ),
                             IconButton(
-                              color: Color(0XFF035B6F),
+                              color: const Color(0XFF035B6F),
                               iconSize: 18,
                               icon: const Icon(Icons.edit),
                               onPressed: () =>
                                   _showQuantity(_nourritures[index]['id_n']),
                             ),
                             IconButton(
-                              color: Color(0XFF035B6F),
+                              color: const Color(0XFF035B6F),
                               iconSize: 18,
                               icon: const Icon(Icons.delete),
                               onPressed: () =>
@@ -1188,7 +1189,7 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
               ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0XFF035B6F),
+        backgroundColor: const Color(0XFF035B6F),
         child: const Icon(
           Icons.add,
           color: Color.fromARGB(255, 255, 255, 255),

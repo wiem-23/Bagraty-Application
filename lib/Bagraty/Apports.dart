@@ -12,11 +12,13 @@ class _ApportsState extends State<Apports> {
   List<dynamic> pdieList = [];
   List<dynamic> pdinList = [];
   List<dynamic> stList = [];
+  List<dynamic> ciList = [];
   double _apport = 0.0;
   double _apportms = 0.0;
   double _apportst = 0.0;
   double _apportpdie = 0.0;
   double _apportpdin = 0.0;
+  double _ci = 0.0;
 
   @override
   void initState() {
@@ -25,6 +27,22 @@ class _ApportsState extends State<Apports> {
     _calculateMSTotal();
     _calculatePDIETotal();
     _calculatePDINTotal();
+    _calculateCIforComparaison();
+  }
+
+  Future<void> _calculateCIforComparaison() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    SQLHelper db = SQLHelper();
+
+    await db.setCurrentExp(1);
+
+    int? currentUserId = await db.getCurrentExpId();
+
+    print('ID de l\'utilisateur actuel : $currentUserId');
+    var _ci = await SQLHelper().calcCITotal(id: currentUserId);
+
+    print('CIIIIIIIIII: $_ci');
   }
 
   Future<void> _calculatePDINTotal() async {
@@ -120,63 +138,81 @@ class _ApportsState extends State<Apports> {
   }
 
   Widget build(BuildContext context) {
-    return DataTable(
-        columnSpacing: 30,
-        horizontalMargin: 20.0,
-        headingRowColor: const WidgetStatePropertyAll(Color(0XFF035B6F)),
-        dataRowColor: const WidgetStatePropertyAll(Colors.white),
-        columns: const [
-          DataColumn(
-              headingRowAlignment: MainAxisAlignment.center,
-              label: Text(
-                "App MS",
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
-                textAlign: TextAlign.end,
-              )),
-          DataColumn(
-              headingRowAlignment: MainAxisAlignment.center,
-              label: Text(
-                "App UFL",
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
-                textAlign: TextAlign.end,
-              )),
-          DataColumn(
-              headingRowAlignment: MainAxisAlignment.center,
-              label: Text(
-                "App PDIE",
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
-                textAlign: TextAlign.end,
-              )),
-          DataColumn(
-              headingRowAlignment: MainAxisAlignment.center,
-              label: Text(
-                "App PDIN",
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
-                textAlign: TextAlign.end,
-              )),
-        ],
-        rows: [
-          DataRow(cells: [
-            DataCell(Text((_apportms.toStringAsFixed(2)).toString(),
-                style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Color(0XFF035B6F)))),
-            DataCell(
-              Text(_apport.toStringAsFixed(2),
-                  style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Color(0XFF035B6F))),
-            ),
-            DataCell(Text(_apportpdie.toStringAsFixed(2).toString(),
-                style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Color(0XFF035B6F)))),
-            DataCell(Text(_apportpdin.toStringAsFixed(2).toString(),
-                style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Color(0XFF035B6F)))),
-          ])
-        ]);
+    return Container(
+        child: Column(
+      children: [
+        DataTable(
+            columnSpacing: 30,
+            horizontalMargin: 20.0,
+            headingRowColor: const WidgetStatePropertyAll(Color(0XFF035B6F)),
+            dataRowColor: const WidgetStatePropertyAll(Colors.white),
+            columns: const [
+              DataColumn(
+                  headingRowAlignment: MainAxisAlignment.center,
+                  label: Text(
+                    "App MS",
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic, color: Colors.white),
+                    textAlign: TextAlign.end,
+                  )),
+              DataColumn(
+                  headingRowAlignment: MainAxisAlignment.center,
+                  label: Text(
+                    "App UFL",
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic, color: Colors.white),
+                    textAlign: TextAlign.end,
+                  )),
+              DataColumn(
+                  headingRowAlignment: MainAxisAlignment.center,
+                  label: Text(
+                    "App PDIE",
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic, color: Colors.white),
+                    textAlign: TextAlign.end,
+                  )),
+              DataColumn(
+                  headingRowAlignment: MainAxisAlignment.center,
+                  label: Text(
+                    "App PDIN",
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic, color: Colors.white),
+                    textAlign: TextAlign.end,
+                  )),
+            ],
+            rows: [
+              DataRow(cells: [
+                DataCell(Text((_apportms.toStringAsFixed(2)).toString(),
+                    style: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Color(0XFF035B6F)))),
+                DataCell(
+                  Text(_apport.toStringAsFixed(2),
+                      style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          color: Color(0XFF035B6F))),
+                ),
+                DataCell(Text(_apportpdie.toStringAsFixed(2).toString(),
+                    style: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Color(0XFF035B6F)))),
+                DataCell(Text(_apportpdin.toStringAsFixed(2).toString(),
+                    style: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Color(0XFF035B6F)))),
+              ])
+            ]),
+        if (_apportms < _ci)
+          const Text(
+              "« Alerte : La capacité d’ingestion de votre vache n’est pas saturée. Augmentez la quantité des fourrages distribuées»"),
+        if (_apportms > _ci)
+          const Text(
+              "« Alerte : La capacité d’ingestion de votre vache est sursaturée. Diminuer la quantité des fourrages distribuées. »"),
+        if (_apportst > (_apportms / 2))
+          const Text(
+              "« Alerte : Attention vous comptez distribuer plus de 50 % de concentré dans votre ration .Diminuez la quantité de concentré distribuée. »")
+      ],
+    ));
   }
 }
  /*  @override

@@ -1,5 +1,7 @@
 import 'dart:io';
-
+import 'package:bagraty_project/Bagraty/BottomNavigation.dart';
+import 'package:bagraty_project/Bagraty/calculRation.dart';
+import 'package:intl/intl.dart';
 import 'package:bagraty_project/Bagraty/AjoutVache.dart';
 import 'package:bagraty_project/Bagraty/BasicPage.dart';
 import 'package:bagraty_project/Bagraty/Inscription.dart';
@@ -27,6 +29,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (MaterialApp(home: Connexion()));
+    return (MaterialApp(
+        locale: const Locale('fr', 'FR'),
+        // Ajoutez les localisation delegates pour le support de la langue
+
+        /* supportedLocales: [
+          Locale('fr', 'FR'), // Support pour le français
+          Locale('en', 'US'), // Support pour l'anglais (optionnel)
+        ], */
+        home: Connexion()));
   }
 }

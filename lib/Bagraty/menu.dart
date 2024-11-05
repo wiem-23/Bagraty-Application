@@ -18,8 +18,7 @@ void _onItemTapped(int index) {
 void setState(Null Function() param0) {}
 
 class Menu extends StatefulWidget {
-  int? id;
-  Menu({super.key, required id});
+  Menu({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -102,6 +101,7 @@ class MenuState extends State<Menu> {
                   Column(
                     children: [
                       Container(
+                        child: CalculBesoinsFourrages(),
                         margin: const EdgeInsets.only(bottom: 10),
                         width: 130.0,
                         height: 130.0,
