@@ -1,4 +1,4 @@
-import 'package:bagraty_project/Bagraty/AjoutVache.dart';
+/* import 'package:bagraty_project/Bagraty/AjoutVache.dart';
 import 'package:bagraty_project/Bagraty/calculBesoinsConcentes.dart';
 import 'package:bagraty_project/Bagraty/calculBesoinsFourrages.dart';
 import 'package:bagraty_project/Bagraty/first_page.dart';
@@ -29,10 +29,11 @@ class DashboardScreen extends State<MainPage> {
   Widget callPage(int currentIndex) {
     switch (currentIndex) {
       case 0:
-        return Ajoutvache(); // MainPage() // why? it's
+        return CalculBesoinsConcentres(); // MainPage() // why? it's
 // returning the same widget again recursively...
       case 1:
-        return CalculBesoinsConcentres(); // MainPage() // why? it's
+        return Ajoutvache();
+        ; // MainPage() // why? it's
 // returning the same widget again recursively...
       case 2:
         return CalculBesoinsFourrages(); // SecondPage()
@@ -84,3 +85,4 @@ class DashboardScreen extends State<MainPage> {
     );
   }
 }
+ */

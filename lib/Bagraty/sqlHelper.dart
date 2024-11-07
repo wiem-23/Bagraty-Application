@@ -46,9 +46,7 @@ ufl_n REAL NOT NULL,
 pdin_n INTEGER NOT NULL , 
 pdie_n INTEGER NOT NULL , 
 ndf_n INTEGER NOT NULL,
-quantite INTEGER ,
-id_v INTEGER NOT NULL,
-FOREIGN KEY(id_v) REFERENCES Vache(id_v) 
+quantite INTEGER 
 )
       """);
     print("tables created");
@@ -59,7 +57,7 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
 
   static Future<sql.Database> db() async {
     return sql.openDatabase(
-      'DataBase_Bagraty.db',
+      'Base_bgt.db',
       version: 1,
       onCreate: (sql.Database database, int version) async {
         await createTables(database);
@@ -116,7 +114,6 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
     required int pdie_n,
     required int ndf_n,
     required int quantite,
-    required int id_v,
   }) async {
     final db = await SQLHelper.db();
 
@@ -129,7 +126,6 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
       'pdie_n': pdie_n,
       'ndf_n': ndf_n,
       'quantite': quantite,
-      "id_v": id_v,
     };
     final id = await db.insert('Nourriture', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
@@ -145,8 +141,6 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
     required int pdie_n,
     required int ndf_n,
     required int quantite,
-    required int id_n,
-    required int id_v,
   }) async {
     final db = await SQLHelper.db();
 
@@ -159,7 +153,6 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
       'pdie_n': pdie_n,
       'ndf_n': ndf_n,
       'quantite': quantite,
-      'id_v': id_v,
     };
     final id = await db.insert('Nourriture', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
@@ -175,7 +168,6 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
     required int pdie_n,
     required int ndf_n,
     required int quantite,
-    required int id_v,
   }) async {
     final db = await SQLHelper.db();
 
@@ -188,7 +180,6 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
       'pdie_n': pdie_n,
       'ndf_n': ndf_n,
       'quantite': quantite,
-      'id_v': id_v,
     };
     final id = await db.insert('Nourriture', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
@@ -322,6 +313,27 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
     }
     print('here$_totalufl');
     return _totalufl!;
+  }
+
+  Future<List> calculateNDFTotal() async {
+    final db = await SQLHelper.db();
+    var result =
+        await db.rawQuery("SELECT * FROM Nourriture WHERE quantite !=0");
+    print('reS$result');
+    return result.toList();
+  }
+
+  double _totalndf = 0.0;
+  List ndfList = [];
+
+  Future<double?> _calcNDFTotal() async {
+    uflList = await SQLHelper().calculateNDFTotal();
+
+    for (var nourriture in ndfList) {
+      _totalndf = (_totalndf + nourriture['ndf_n']);
+    }
+    print('ndf$_totalndf');
+    return _totalndf!;
   }
 
   Future<List> calculateMSTotal() async {
@@ -462,7 +474,7 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
       {required int? id}) async {
     final db = await SQLHelper.db();
     var result = await db.rawQuery("SELECT * FROM Vache WHERE id_v =$id");
-
+    print('resultat $result');
     return result;
   }
 
@@ -543,7 +555,7 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
     besoinsE = await SQLHelper().besoinsEntretienUFL(id: id);
 
     besoinsT = besoinsG + besoinsC + besoinsE;
-
+    print('besoins total ufl $besoinsT');
     return besoinsT;
   }
 
@@ -604,14 +616,14 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
     itemBCPDI = await SQLHelper.calculatePDIBC(id: id);
 
     for (var vache in itemBCPDI) {
-      if (vache['age'] <= 24 && vache['age'] >= 28) {
+      if (vache['age'] >= 24 && vache['age'] <= 28) {
         _BCPDI = 240;
-      } else if (vache['age'] <= 32 && vache['age'] >= 36) {
+      } else if (vache['age'] >= 32 && vache['age'] <= 36) {
         _BCPDI = 140;
       } else
         _BCPDI = 0;
     }
-
+    print('_BCPDI $_BCPDI');
     return _BCPDI;
   }
 
@@ -651,9 +663,12 @@ FOREIGN KEY(id_v) REFERENCES Vache(id_v)
     besoinsGPDI = await SQLHelper().besoinsGestationPDI(id: id);
     besoinsCPDI = await SQLHelper().besoinsCroissancePDI(id: id);
     besoinsEPDI = await SQLHelper().besoinsEntretienPDI(id: id);
+    print('besoinsGPDI$besoinsGPDI');
+    print('besoinsCPDI$besoinsCPDI');
+    print('besoinsEPDI$besoinsEPDI');
 
     besoinsTPDI = besoinsGPDI + besoinsCPDI + besoinsEPDI;
-
+    print('besoinsTPDI$besoinsTPDI');
     return besoinsTPDI;
   }
 

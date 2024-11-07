@@ -1,6 +1,10 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print, unused_field, prefer_typing_uninitialized_variables, prefer_const_constructors
 
+import 'dart:async';
+
+import 'package:bagraty_project/Bagraty/ListeNourritures.dart';
 import 'package:bagraty_project/Bagraty/calculBesoinsConcentes.dart';
+import 'package:bagraty_project/Bagraty/calculBesoinsFourrages.dart';
 import 'package:bagraty_project/Bagraty/menu.dart';
 
 import 'package:bagraty_project/Bagraty/sqlHelper.dart';
@@ -8,7 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-bool error = false, success = false;
+bool error = false;
+bool isButtonEnabled = false;
 
 // ignore: must_be_immutable
 class Ajoutvache extends StatefulWidget {
@@ -47,11 +52,11 @@ class AjoutvacheState extends State<Ajoutvache> {
   TextEditingController _dateController = TextEditingController();
   String? _selectedOption;
   bool tarie = false;
-  final List<String> _options = ['Tarie', 'Multipare', 'primipare'];
+  final List<String> _options = ['Tarie', 'Multipare', 'Primipare'];
   void initState() {
     super.initState();
     error = false;
-    success = false;
+
     daate = '';
     prod_lait.text = '';
   }
@@ -63,7 +68,6 @@ class AjoutvacheState extends State<Ajoutvache> {
       prod_lait.text = '7';
     });
     print(prod_lait.text);
-    print('success $success');
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -73,6 +77,24 @@ class AjoutvacheState extends State<Ajoutvache> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        // Personnalisation du thème ici
+        return Theme(
+          data: ThemeData(
+            primaryColor: const Color.fromARGB(
+                255, 243, 33, 208), // Couleur du titre du calendrier
+            hintColor: Colors.blue, // Couleur des éléments interactifs
+            buttonTheme: ButtonThemeData(
+              textTheme: ButtonTextTheme.primary, // Couleur des boutons
+            ),
+            textTheme: TextTheme(
+              titleLarge: TextStyle(color: Colors.blue), // Titre du mois
+              bodyMedium: TextStyle(color: Colors.black), // Texte du jour
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     // Si une date a été choisie, mettre à jour le champ de texte
@@ -355,6 +377,13 @@ class AjoutvacheState extends State<Ajoutvache> {
                 minWidth: 2,
                 padding: const EdgeInsets.fromLTRB(40.0, 15.0, 40.0, 15.0),
                 onPressed: () async {
+                  isButtonEnabled = false;
+                  if (int.parse(id_v.text) == 0 ||
+                      int.parse(id_m.text) == 0 ||
+                      int.parse(id_p.text) == 0) {
+                    print("here");
+                    _showAlertDialog(context);
+                  } else
                   /* WidgetsFlutterBinding.ensureInitialized();
 
               SQLHelper db = SQLHelper();
@@ -365,7 +394,6 @@ class AjoutvacheState extends State<Ajoutvache> {
 
               print('ID de l\'utilisateur actuel : $currentUserId'); */
                   if (_selectedOption == "Tarie") {
-                    print('success $success');
                     await SQLHelper().insertVacheData(
                         parite: _selectedOption,
                         id_v: int.parse(id_v.text),
@@ -381,7 +409,6 @@ class AjoutvacheState extends State<Ajoutvache> {
                         date: daate,
                         id_n: 0);
                   } else {
-                    print('success $success');
                     await SQLHelper().insertVacheData(
                         parite: _selectedOption,
                         id_v: int.parse(id_v.text),
@@ -411,9 +438,9 @@ class AjoutvacheState extends State<Ajoutvache> {
                   print('vache updated');
                   print(res);
 
-                  success = true;
+                  isButtonEnabled = true;
 
-                  print('success $success');
+                  print('isButtonEnabled $isButtonEnabled');
                   //  final rows = await db.query('my_table');
                   // ignore: duplicate_ignore
                   // ignore: avoid_print
@@ -434,11 +461,11 @@ class AjoutvacheState extends State<Ajoutvache> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                color: const Color(0xff708907),
+                color: Color(0xff708907),
                 minWidth: 2,
                 padding: const EdgeInsets.fromLTRB(40.0, 15.0, 40.0, 15.0),
                 onPressed: () async {
-                  !success ? null : _showCI(id: int.parse(id_v.text));
+                  _showCI(id: int.parse(id_v.text));
                   var _ci =
                       await SQLHelper().calcCITotal(id: int.parse(id_v.text));
                   print("ci =====> ${_ci}");
@@ -451,10 +478,12 @@ class AjoutvacheState extends State<Ajoutvache> {
 
                   print('vache updated');
                   print(res);
-                  //  final rows = await db.query('my_table');
-                  // ignore: duplicate_ignore
-                  // ignore: avoid_print
-                },
+                }
+                //  final rows = await db.query('my_table');
+                // ignore: duplicate_ignore
+                // ignore: avoid_print
+
+                ,
                 child: const Text(
                   "Détails",
                   textAlign: TextAlign.center,
@@ -471,15 +500,15 @@ class AjoutvacheState extends State<Ajoutvache> {
   }
 
   void _showCI({required int id}) async {
-    var ci = await SQLHelper().calcCITotal(id: id);
+    var ci = await SQLHelper().calcCITotal(id: int.parse(id_v.text));
     var _thi = await SQLHelper().calcTHITotal(id: int.parse(id_v.text));
     await SQLHelper.updateVache(
         id_v: int.parse(id_v.text), ci_v: ci, thi_v: _thi);
     var res = await SQLHelper.getVache(id: int.parse(id_v.text));
-    var btPDI = await SQLHelper().besoinsTotauxPDI(id: id);
-    var btUFL = await SQLHelper().besoinsTotauxUFL(id: id);
-    var blPDI = await SQLHelper().besoinsLactationPDI(id: id);
-    var blUFL = await SQLHelper().besoinsLactationUFL(id: id);
+    var btPDI = await SQLHelper().besoinsTotauxPDI(id: int.parse(id_v.text));
+    var btUFL = await SQLHelper().besoinsTotauxUFL(id: int.parse(id_v.text));
+    var blPDI = await SQLHelper().besoinsLactationPDI(id: int.parse(id_v.text));
+    var blUFL = await SQLHelper().besoinsLactationUFL(id: int.parse(id_v.text));
     showModalBottomSheet(
         context: context,
         elevation: 6,
@@ -569,7 +598,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                               color: Color(0XFF035B6F),
                               fontSize: 17,
                               fontWeight: FontWeight.bold)),
-                      Text(btUFL.toString(),
+                      Text((btUFL!).toStringAsFixed(2),
                           style: TextStyle(
                               color: const Color.fromARGB(255, 128, 10, 1),
                               fontSize: 14,
@@ -680,11 +709,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                         ),
                         color: const Color(0xff708907),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => CalculBesoinsConcentres()));
+                          _showListeNourriture(id: int.parse(id_v.text));
                         },
                         child: const Text(
-                          ' Ration ',
+                          ' Liste Nourriture ',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       )
@@ -693,5 +721,41 @@ class AjoutvacheState extends State<Ajoutvache> {
                 ],
               ),
             ));
+  }
+
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Alerte'),
+          content: Text("Merci de saisir l'ID"),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Ferme la boîte de dialogue
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showListeNourriture({required int id}) async {
+    showModalBottomSheet(
+        context: context,
+        elevation: 6,
+        isScrollControlled: true,
+        builder: (_) => Container(
+            padding: EdgeInsets.only(
+              top: 15,
+              left: 15,
+              right: 15,
+              // this will prevent the soft keyboard from covering the text fields
+              bottom: MediaQuery.of(context).viewInsets.bottom + 50,
+            ),
+            child: Listenourritures(id_v: int.parse(id_v.text))));
   }
 }

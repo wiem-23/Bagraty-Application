@@ -15,6 +15,7 @@ class _ApportsState extends State<Apports> {
   List<dynamic> pdinList = [];
   List<dynamic> stList = [];
   List<dynamic> ciList = [];
+  List<dynamic> ndfList = [];
   double _apport = 0.0;
   double _apportms = 0.0;
   double _apportst = 0.0;
@@ -22,11 +23,13 @@ class _ApportsState extends State<Apports> {
   double _apportpdin = 0.0;
   double _ci = 0.0;
   double btufl = 0.0;
+  double _apportndf = 0.0;
 
   double btpdi = 0.0;
   double restufl = 0.0;
   double restpdin = 0.0;
   double restpdie = 0.0;
+  double result = 0.0;
 
   @override
   void initState() {
@@ -37,6 +40,23 @@ class _ApportsState extends State<Apports> {
     _calculatePDINTotal();
     _calculateCIforComparaison();
     _getResteUFL();
+    _calculateNDFTotal();
+  }
+
+  Future<void> _calculateNDFTotal() async {
+    pdieList = await SQLHelper().calculateNDFTotal();
+    double apportndf = 0.0;
+    double totalndf = 0.0;
+    ndfList.forEach((nourriture) {
+      totalndf += (nourriture['quantite'] * (nourriture['ms_n'] / 100)) *
+          nourriture['ndf_n'];
+
+      apportndf = totalndf;
+    });
+
+    setState(() {
+      _apportndf = apportndf;
+    });
   }
 
   Future<void> _calculateCIforComparaison() async {
@@ -70,17 +90,13 @@ class _ApportsState extends State<Apports> {
     pdieList.forEach((nourriture) {
       totalpdie += (nourriture['quantite'] * (nourriture['ms_n'] / 100)) *
           nourriture['pdie_n'];
-      print(nourriture['quantite'] * (nourriture['ms_n'] / 100));
-      print('ufl  ${nourriture['pdie']}');
-      print('tot  $totalpdie');
+
       apportpdie = totalpdie;
     });
 
     setState(() {
       _apportpdie = apportpdie;
     });
-
-    print('Totalufl: $_apportpdie');
   }
 
   Future<void> _calculateTotalSommeTow() async {
@@ -96,8 +112,6 @@ class _ApportsState extends State<Apports> {
     setState(() {
       _apportst = apportst;
     });
-
-    print('Total: $_apportst');
   }
 
   Future<void> _calculateMSTotal() async {
@@ -113,8 +127,6 @@ class _ApportsState extends State<Apports> {
     setState(() {
       _apportms = apportms;
     });
-
-    print('Total: $_apportms');
   }
 
   Future<void> _calculateUFLTotal() async {
@@ -124,9 +136,7 @@ class _ApportsState extends State<Apports> {
     uflList.forEach((nourriture) {
       total += (nourriture['quantite'] * (nourriture['ms_n'] / 100)) *
           nourriture['ufl_n'];
-      print(nourriture['quantite'] * (nourriture['ms_n'] / 100));
-      print('ufl  ${nourriture['ufl_n']}');
-      print('tot  $total');
+
       apport = total;
     });
 
@@ -145,8 +155,9 @@ class _ApportsState extends State<Apports> {
 
   Future<double?> _getRestePDIE() async {
     btpdi = (await SQLHelper().besoinsTotauxPDI(id: 1))!;
+
     restpdie = _apportpdie - btpdi;
-    print(restpdie);
+
     return restpdie;
   }
 
@@ -240,7 +251,7 @@ class _ApportsState extends State<Apports> {
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Color(0XFF035B6F)))),
-                    DataCell(Text((_apportms.toStringAsFixed(2)).toString(),
+                    DataCell(Text(_apportms.toStringAsFixed(2),
                         style: const TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Color(0XFF035B6F)))),
@@ -250,11 +261,11 @@ class _ApportsState extends State<Apports> {
                               fontStyle: FontStyle.italic,
                               color: Color(0XFF035B6F))),
                     ),
-                    DataCell(Text(_apportpdie.toStringAsFixed(2).toString(),
+                    DataCell(Text(_apportpdie.toStringAsFixed(2),
                         style: const TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Color(0XFF035B6F)))),
-                    DataCell(Text(_apportpdin.toStringAsFixed(2).toString(),
+                    DataCell(Text(_apportpdin.toStringAsFixed(2),
                         style: const TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Color(0XFF035B6F)))),
@@ -332,110 +343,45 @@ class _ApportsState extends State<Apports> {
                       color: const Color.fromARGB(255, 128, 10, 1),
                       fontSize: 14,
                       fontWeight: FontWeight.bold)),
+            const SizedBox(
+              height: 15,
+            ),
+            if ((restufl / 0.45) == (restpdie / 48))
+              const Text("« Equilibrée : Pas besoin de correcteur. »",
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 128, 10, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold)),
+            if ((restufl / 0.45) > (restpdie / 48))
+              const Text(
+                  "« Déséquilibrée : Il faut combler un déficit de {(restufl / 0.45) - (restpdie / 48)} Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur azoté . »",
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 128, 10, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold)),
+            if ((restufl / 0.45) < (restpdie / 48))
+              const Text(
+                  "« Déséquilibrée : Il faut combler un déficit de {((restpdie / 48) - (restufl / 0.45))}  Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur énergitique . »",
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 128, 10, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold)),
+            const SizedBox(
+              height: 15,
+            ),
+            if ((_apportndf >= (35 / 100 * _apportms * 1000)))
+              const Text("«Pas de risque d'acidose »",
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 128, 10, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold)),
+            if ((_apportndf < (35 / 100 * _apportms * 1000)))
+              const Text("«Risque fort d'acidose »",
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 128, 10, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold)),
           ],
         )));
   }
 }
- /*  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Total UFL: ${_apport.toStringAsFixed(2)}'),
-            SizedBox(height: 20),
-            Table(
-              border: TableBorder.all(),
-              children: [
-                const TableRow(children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('ID',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Valeur UFL',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                ]),
-                ...uflList.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  var nourriture = entry.value;
-                  double Ms = nourriture['ms_n'] ?? 0.0; // Si null, utilise 0.0
-                  double uFL =
-                      nourriture['ufl_n'] ?? 0.0; // Si null, utilise 0.0
-                  int qT = nourriture['quantite'] ?? 0.0;
-                  double produit = qT * uFL * Ms;
-                  return TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text((index + 1).toString()),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(produit.toString()),
-                    ),
-                  ]);
-                }).toList(),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-    
-    
-    
-    Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Total UFL: ${_apport.toStringAsFixed(2)}'),
-            SizedBox(height: 20),
-            Table(
-              border: TableBorder.all(),
-              children: [
-                const TableRow(children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('ID',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Valeur UFL',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                ]),
-                ...uflList.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  var nourriture = entry.value;
-                  double Ms = nourriture['ms_n'] ?? 0.0; // Si null, utilise 0.0
-                  double uFL =
-                      nourriture['ufl_n'] ?? 0.0; // Si null, utilise 0.0
-                  int qT = nourriture['quantite'] ?? 0.0;
-                  double produit = qT * uFL * Ms;
-                  return TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text((index + 1).toString()),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(produit.toString()),
-                    ),
-                  ]);
-                }).toList(),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  } */

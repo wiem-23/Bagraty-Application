@@ -903,7 +903,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
   Future<void> _addItem() async {
     await SQLHelper.createFourrageItem(
         motif_n: "concentré",
-        id_v: widget.hashCode,
         nom_n: _nomController.text,
         ms_n: double.parse(_msController.text),
         ufl_n: double.parse(_uflController.text),
@@ -913,9 +912,8 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         quantite: 0);
 
     print("add");
-
+/* 
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 2,
         motif_n: "concentre",
         nom_n: "Pulpe de Betterave",
@@ -926,7 +924,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 200,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 3,
         motif_n: "concentre",
         nom_n: "Orge grain",
@@ -937,7 +934,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 110,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 4,
         motif_n: "concentre",
         nom_n: "Soja grain",
@@ -948,7 +944,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 200,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 5,
         motif_n: "concentre",
         nom_n: "Grignons d’Olive",
@@ -959,7 +954,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 300,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 6,
         motif_n: "concentre",
         nom_n: "Maïs grain",
@@ -970,7 +964,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 130,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 7,
         motif_n: "concentre",
         nom_n: "Maïs grain",
@@ -981,7 +974,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 200,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 8,
         motif_n: "fourrage",
         nom_n: "Foin d’avoine",
@@ -992,7 +984,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 520,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 9,
         motif_n: "fourrage",
         nom_n: "Paille d'Orge",
@@ -1003,7 +994,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 780,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 10,
         motif_n: "fourrage",
         nom_n: "Ensilage Maïs Faible Valeur",
@@ -1015,7 +1005,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         quantite: 0);
     await SQLHelper.createItem(
         id_n: 11,
-        id_v: 1,
         motif_n: "fourrage",
         nom_n: "Foin de vesce-avoine",
         ms_n: 81,
@@ -1025,7 +1014,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 575,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 12,
         motif_n: "fourrage",
         nom_n: "Foin de luzerne",
@@ -1036,7 +1024,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 425,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 13,
         motif_n: "fourrage",
         nom_n: "Sulla en vert",
@@ -1047,7 +1034,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 300,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 14,
         motif_n: "fourrage",
         nom_n: "Maïs grain",
@@ -1058,7 +1044,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 200,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 15,
         motif_n: "fourrage",
         nom_n: "Foin de ray-grass",
@@ -1069,7 +1054,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 600,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 16,
         motif_n: "fourrage",
         nom_n: "Raquette de cactus âgée",
@@ -1080,7 +1064,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 385,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 17,
         motif_n: "fourrage",
         nom_n: "Feuilles et rameaux d’olivier",
@@ -1091,7 +1074,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 350,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 18,
         motif_n: "fourrage",
         nom_n: "Azolla",
@@ -1102,7 +1084,6 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         ndf_n: 275,
         quantite: 0);
     await SQLHelper.createItem(
-        id_v: 1,
         id_n: 19,
         motif_n: "concentre",
         nom_n: "Concentré N7 ACN",
@@ -1112,7 +1093,7 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
         pdie_n: 90,
         ndf_n: 425,
         quantite: 0);
-
+ */
     _refreshNourritures();
   }
 
@@ -1136,105 +1117,103 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Bottomnavigation(),
-      body: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.fromLTRB(10, 50, 10, 30),
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: [0.0, 0.5, 1.0],
-              colors: [
-                Color(0XFF035B6F),
-                Colors.white,
-                Color(0XFF708908),
-              ],
-            )),
-            child: _isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: _nourritures.length,
-                    itemBuilder: (context, index) => Card(
-                      color: Colors.white,
-                      margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: ListTile(
-                          isThreeLine: true,
-                          minLeadingWidth: 100.0,
-                          minTileHeight: 1,
-                          minVerticalPadding: 1,
-                          horizontalTitleGap: 1.0,
-                          title: Text(
-                            _nourritures[index]['nom_n'],
-                            style: const TextStyle(
-                                color: Color(0XFF035B6F),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14),
-                          ),
-                          subtitle: Text(
-                              _nourritures[index]['quantite'].toString(),
+      body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.fromLTRB(10, 50, 10, 30),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.0, 0.5, 1.0],
+            colors: [
+              Color(0XFF035B6F),
+              Colors.white,
+              Color(0XFF708908),
+            ],
+          )),
+          child: Column(children: [
+            Expanded(
+              child: _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: _nourritures.length,
+                      itemBuilder: (context, index) => Card(
+                        color: Colors.white,
+                        margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: ListTile(
+                            isThreeLine: true,
+                            minLeadingWidth: 100.0,
+                            minTileHeight: 1,
+                            minVerticalPadding: 1,
+                            horizontalTitleGap: 1.0,
+                            title: Text(
+                              _nourritures[index]['nom_n'],
                               style: const TextStyle(
-                                  color: Color(0xff708907),
-                                  fontWeight: FontWeight.bold)),
-                          trailing: SizedBox(
-                            width: 120,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  color: const Color(0XFF035B6F),
-                                  iconSize: 18,
-                                  icon: const Icon(Icons.remove_red_eye),
-                                  onPressed: () =>
-                                      _showTable(_nourritures[index]['id_n']),
-                                ),
-                                IconButton(
-                                  color: const Color(0XFF035B6F),
-                                  iconSize: 18,
-                                  icon: const Icon(Icons.edit),
-                                  onPressed: () => _showQuantity(
-                                      _nourritures[index]['id_n']),
-                                ),
-                                IconButton(
-                                  color: const Color(0XFF035B6F),
-                                  iconSize: 18,
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () =>
-                                      _deleteItem(_nourritures[index]['id_n']),
-                                ),
-                              ],
+                                  color: Color(0XFF035B6F),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14),
                             ),
-                          )),
+                            subtitle: Text(
+                                _nourritures[index]['quantite'].toString(),
+                                style: const TextStyle(
+                                    color: Color(0xff708907),
+                                    fontWeight: FontWeight.bold)),
+                            trailing: SizedBox(
+                              width: 120,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    color: const Color(0XFF035B6F),
+                                    iconSize: 18,
+                                    icon: const Icon(Icons.remove_red_eye),
+                                    onPressed: () =>
+                                        _showTable(_nourritures[index]['id_n']),
+                                  ),
+                                  IconButton(
+                                    color: const Color(0XFF035B6F),
+                                    iconSize: 18,
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () => _showQuantity(
+                                        _nourritures[index]['id_n']),
+                                  ),
+                                  IconButton(
+                                    color: const Color(0XFF035B6F),
+                                    iconSize: 18,
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () => _deleteItem(
+                                        _nourritures[index]['id_n']),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
                     ),
-                  ),
-          ),
-          MaterialButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              color: const Color(0xff708907),
-              minWidth: 2,
-              padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Apports()));
-              },
-              child: const Text(
-                "Apports",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Color(0xffffffff),
-                  fontWeight: FontWeight.bold,
+            ),
+            MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-              )),
-        ],
-      ),
+                color: const Color(0xff708907),
+                minWidth: 2,
+                padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Apports()));
+                },
+                child: const Text(
+                  "Apports",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Color(0xffffffff),
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+          ])),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0XFF035B6F),
         child: const Icon(
@@ -1246,3 +1225,19 @@ class _CalculBesoinsConcentresState extends State<CalculBesoinsConcentres> {
     );
   }
 }
+      
+      
+      
+      
+      
+      
+  /*      Column(
+        children: [
+          Container(
+           
+           
+          ),
+       
+        ],
+      ),
+      */

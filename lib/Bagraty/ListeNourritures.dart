@@ -1,26 +1,32 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:math';
 
 import 'package:bagraty_project/Bagraty/Apports.dart';
+import 'package:bagraty_project/Bagraty/BottomNavigation.dart';
+import 'package:bagraty_project/Bagraty/calculRation.dart';
+
 import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 
 import 'package:flutter/material.dart';
 
-class CalculBesoinsFourrages extends StatefulWidget {
-  const CalculBesoinsFourrages({super.key});
+class Listenourritures extends StatefulWidget {
+  int? id_v;
+  Listenourritures({super.key, required int id_v});
 
   @override
-  _CalculBesoinsFourragesState createState() => _CalculBesoinsFourragesState();
+  _ListenourrituresState createState() => _ListenourrituresState();
 }
 
-class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
+class _ListenourrituresState extends State<Listenourritures> {
   // All journals
   List<Map<String, dynamic>> _nourritures = [];
 
   bool _isLoading = true;
   // This function is used to fetch all data from the database
   void _refreshNourritures() async {
-    final data = await SQLHelper.getFourragesItems();
+    final data = await SQLHelper.getItems();
     setState(() {
       _nourritures = data;
       _isLoading = false;
@@ -41,7 +47,7 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
   final TextEditingController _pdinController = TextEditingController();
   final TextEditingController _msController = TextEditingController();
   final TextEditingController _nomController = TextEditingController();
-
+  final TextEditingController motifController = TextEditingController();
   // This function will be triggered when the floating button is pressed
   // It will also be triggered when you want to update an item
   void _showQuantity(int? id) async {
@@ -83,11 +89,11 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
                       hoverColor: Color(0XFF035B6F),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   MaterialButton(
-                    padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                    padding: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                     minWidth: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -114,7 +120,7 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
                     },
                     child: Text(
                       id == null ? 'Ajouter fourrage' : 'Ajouter',
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
@@ -148,11 +154,19 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text('Ajouter un fourrage',
+                  const Text('Ajouter nourriture',
                       style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
                           color: Color(0xff708907))),
+                  TextField(
+                    controller: motifController,
+                    decoration: const InputDecoration(
+                      hintText: 'Motif',
+                      hintStyle: TextStyle(color: Color(0XFF035B6F)),
+                      hoverColor: Color(0XFF035B6F),
+                    ),
+                  ),
                   TextField(
                     controller: _nomController,
                     decoration: const InputDecoration(
@@ -204,7 +218,7 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
                     height: 50,
                   ),
                   MaterialButton(
-                    padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
                     minWidth: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -215,7 +229,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
                       if (id == null) {
                         await _addItem();
                       }
-
                       if (id != null) {
                         await _updateItem(id);
                       }
@@ -230,8 +243,8 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
                       MyTableWidget(id_n: id);
                     },
                     child: Text(
-                      id == null ? 'Ajouter Fourrage' : 'Ajouter',
-                      style: TextStyle(color: Colors.white),
+                      id == null ? 'Ajouter Concentré' : 'Ajouter',
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
@@ -259,22 +272,22 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
                 left: 15,
                 right: 15,
                 // this will prevent the soft keyboard from covering the text fields
-                bottom: MediaQuery.of(context).viewInsets.bottom + 50,
+                //      bottom: MediaQuery.of(context).viewInsets.bottom + 20,
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   MyTableWidget(id_n: id),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
-                  Apports(),
-                  SizedBox(
+                  const Apports(),
+                  const SizedBox(
                     height: 50,
                   ),
                   MaterialButton(
-                    padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                    padding: const EdgeInsets.fromLTRB(25, 15, 25, 15),
                     minWidth: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -297,8 +310,8 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
 
 // Insert a new journal to the database
   Future<void> _addItem() async {
-    await SQLHelper.createFourrageItem(
-        motif_n: "fourrage",
+    await SQLHelper.createItem(
+        motif_n: "concentré",
         nom_n: _nomController.text,
         ms_n: double.parse(_msController.text),
         ufl_n: double.parse(_uflController.text),
@@ -306,10 +319,10 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         pdie_n: int.parse(_pdieController.text),
         ndf_n: int.parse(_ndfController.text),
         quantite: 0);
+
     print("add");
 
-    /*  await SQLHelper.createItem(
-        id_n: 2,
+    await SQLHelper.createItem(
         motif_n: "concentre",
         nom_n: "Pulpe de Betterave",
         ms_n: 28,
@@ -319,7 +332,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 200,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 3,
         motif_n: "concentre",
         nom_n: "Orge grain",
         ms_n: 86.7,
@@ -329,7 +341,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 110,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 4,
         motif_n: "concentre",
         nom_n: "Soja grain",
         ms_n: 90,
@@ -339,7 +350,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 200,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 5,
         motif_n: "concentre",
         nom_n: "Grignons d’Olive",
         ms_n: 90,
@@ -349,7 +359,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 300,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 6,
         motif_n: "concentre",
         nom_n: "Maïs grain",
         ms_n: 86,
@@ -359,7 +368,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 130,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 7,
         motif_n: "concentre",
         nom_n: "Maïs grain",
         ms_n: 89,
@@ -369,7 +377,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 200,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 8,
         motif_n: "fourrage",
         nom_n: "Foin d’avoine",
         ms_n: 86.8,
@@ -379,7 +386,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 520,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 9,
         motif_n: "fourrage",
         nom_n: "Paille d'Orge",
         ms_n: 88,
@@ -389,7 +395,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 780,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 10,
         motif_n: "fourrage",
         nom_n: "Ensilage Maïs Faible Valeur",
         ms_n: 35,
@@ -399,7 +404,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 495,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 11,
         motif_n: "fourrage",
         nom_n: "Foin de vesce-avoine",
         ms_n: 81,
@@ -409,7 +413,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 575,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 12,
         motif_n: "fourrage",
         nom_n: "Foin de luzerne",
         ms_n: 87.5,
@@ -419,7 +422,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 425,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 13,
         motif_n: "fourrage",
         nom_n: "Sulla en vert",
         ms_n: 18,
@@ -429,7 +431,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 300,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 14,
         motif_n: "fourrage",
         nom_n: "Maïs grain",
         ms_n: 89,
@@ -439,7 +440,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 200,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 15,
         motif_n: "fourrage",
         nom_n: "Foin de ray-grass",
         ms_n: 68.8,
@@ -449,7 +449,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 600,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 16,
         motif_n: "fourrage",
         nom_n: "Raquette de cactus âgée",
         ms_n: 11.5,
@@ -459,7 +458,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 385,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 17,
         motif_n: "fourrage",
         nom_n: "Feuilles et rameaux d’olivier",
         ms_n: 20,
@@ -469,7 +467,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 350,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 18,
         motif_n: "fourrage",
         nom_n: "Azolla",
         ms_n: 17.5,
@@ -479,7 +476,6 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         ndf_n: 275,
         quantite: 0);
     await SQLHelper.createItem(
-        id_n: 19,
         motif_n: "concentre",
         nom_n: "Concentré N7 ACN",
         ms_n: 88,
@@ -488,7 +484,7 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         pdie_n: 90,
         ndf_n: 425,
         quantite: 0);
- */
+
     _refreshNourritures();
   }
 
@@ -513,80 +509,104 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.fromLTRB(10, 50, 10, 30),
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [0.0, 0.5, 1.0],
-          colors: [
-            Color(0XFF035B6F),
-            Colors.white,
-            Color(0XFF708908),
-          ],
-        )),
-        child: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: _nourritures.length,
-                itemBuilder: (context, index) => Card(
-                  color: Colors.white,
-                  margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                  child: ListTile(
-                      isThreeLine: true,
-                      minLeadingWidth: 100.0,
-                      minTileHeight: 1,
-                      minVerticalPadding: 1,
-                      horizontalTitleGap: 1.0,
-                      title: Text(
-                        _nourritures[index]['nom_n'],
-                        style: const TextStyle(
-                            color: Color(0XFF035B6F),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.fromLTRB(10, 50, 10, 30),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.0, 0.5, 1.0],
+            colors: [
+              Color(0XFF035B6F),
+              Colors.white,
+              Color(0XFF708908),
+            ],
+          )),
+          child: Column(children: [
+            Expanded(
+              child: _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: _nourritures.length,
+                      itemBuilder: (context, index) => Card(
+                        color: Colors.white,
+                        margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: ListTile(
+                            isThreeLine: true,
+                            minLeadingWidth: 100.0,
+                            minTileHeight: 1,
+                            minVerticalPadding: 1,
+                            horizontalTitleGap: 1.0,
+                            title: Text(
+                              _nourritures[index]['nom_n'],
+                              style: const TextStyle(
+                                  color: Color(0XFF035B6F),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14),
+                            ),
+                            subtitle: Text(
+                                _nourritures[index]['quantite'].toString(),
+                                style: const TextStyle(
+                                    color: Color(0xff708907),
+                                    fontWeight: FontWeight.bold)),
+                            trailing: SizedBox(
+                              width: 120,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    color: const Color(0XFF035B6F),
+                                    iconSize: 18,
+                                    icon: const Icon(Icons.remove_red_eye),
+                                    onPressed: () =>
+                                        _showTable(_nourritures[index]['id_n']),
+                                  ),
+                                  IconButton(
+                                    color: const Color(0XFF035B6F),
+                                    iconSize: 18,
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () => _showQuantity(
+                                        _nourritures[index]['id_n']),
+                                  ),
+                                  IconButton(
+                                    color: const Color(0XFF035B6F),
+                                    iconSize: 18,
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () => _deleteItem(
+                                        _nourritures[index]['id_n']),
+                                  ),
+                                ],
+                              ),
+                            )),
                       ),
-                      subtitle: Text(_nourritures[index]['quantite'].toString(),
-                          style: const TextStyle(
-                              color: Color(0xff708907),
-                              fontWeight: FontWeight.bold)),
-                      trailing: SizedBox(
-                        width: 120,
-                        child: Row(
-                          children: [
-                            IconButton(
-                              color: Color(0XFF035B6F),
-                              iconSize: 18,
-                              icon: const Icon(Icons.remove_red_eye),
-                              onPressed: () =>
-                                  _showTable(_nourritures[index]['id_n']),
-                            ),
-                            IconButton(
-                              color: Color(0XFF035B6F),
-                              iconSize: 18,
-                              icon: const Icon(Icons.edit),
-                              onPressed: () =>
-                                  _showQuantity(_nourritures[index]['id_n']),
-                            ),
-                            IconButton(
-                              color: Color(0XFF035B6F),
-                              iconSize: 18,
-                              icon: const Icon(Icons.delete),
-                              onPressed: () =>
-                                  _deleteItem(_nourritures[index]['id_n']),
-                            ),
-                          ],
-                        ),
-                      )),
+                    ),
+            ),
+            MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-              ),
-      ),
+                color: const Color(0xff708907),
+                minWidth: 2,
+                padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Apports()));
+                },
+                child: const Text(
+                  "Apports",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Color(0xffffffff),
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+          ])),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0XFF035B6F),
+        backgroundColor: const Color(0XFF035B6F),
         child: const Icon(
           Icons.add,
           color: Color.fromARGB(255, 255, 255, 255),

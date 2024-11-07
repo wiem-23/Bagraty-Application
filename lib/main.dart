@@ -1,17 +1,8 @@
 import 'dart:io';
-import 'package:bagraty_project/Bagraty/BottomNavigation.dart';
-import 'package:bagraty_project/Bagraty/calculRation.dart';
-import 'package:bagraty_project/Bagraty/first_page.dart';
-import 'package:intl/intl.dart';
-import 'package:bagraty_project/Bagraty/AjoutVache.dart';
-import 'package:bagraty_project/Bagraty/BasicPage.dart';
-import 'package:bagraty_project/Bagraty/Inscription.dart';
-import 'package:bagraty_project/Bagraty/calculBesoinsConcentes.dart';
-import 'package:bagraty_project/Bagraty/calculBesoinsFourrages.dart';
-import 'package:bagraty_project/Bagraty/Apports.dart';
-import 'package:bagraty_project/Bagraty/connexion.dart';
-import 'package:bagraty_project/Bagraty/menu.dart';
 
+import 'package:bagraty_project/Bagraty/AjoutVache.dart';
+import 'package:bagraty_project/Bagraty/ListeNourritures.dart';
+import 'package:bagraty_project/Bagraty/calculBesoinsConcentes.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -38,6 +29,6 @@ class MyApp extends StatelessWidget {
           Locale('fr', 'FR'), // Support pour le français
           Locale('en', 'US'), // Support pour l'anglais (optionnel)
         ], */
-        home: Bottomnavigation()));
+        home: Ajoutvache()));
   }
 }
