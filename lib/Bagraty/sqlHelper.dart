@@ -10,11 +10,12 @@ class SQLHelper {
     await database.execute("PRAGMA foreign_keys = ON");
     print("PRAGMA foreign_keys = ON");
     await database.execute(
-        """CREATE TABLE Exploitant(id_ex INTEGER PRIMARY KEY AUTOINCREMENT, 
+        """CREATE TABLE Exploitant(id_ex INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
 nom_ex  TEXT NOT NULL ,
 nbr_vache  INTEGER NOT NULL , 
 gov_ex  TEXT NOT NULL , 
-tel_ex INTEGER NOT NULL 
+tel_ex INTEGER NOT NULL,
+mdp TEXT
 )
       """);
     await database.execute("""CREATE TABLE Vache(
@@ -33,8 +34,7 @@ thi_v REAL ,
 date TEXT,
 id_ex INTEGER NOT NULL,
 id_n INTEGER NOT NULL,
-FOREIGN KEY(id_ex) REFERENCES Exploitant(id_ex) ,
-FOREIGN KEY(id_n) REFERENCES Nourriture(id_n)              
+FOREIGN KEY(id_ex) REFERENCES Exploitant(id_ex)             
 )
       """);
     await database.execute("""CREATE TABLE Nourriture(
@@ -46,7 +46,10 @@ ufl_n REAL NOT NULL,
 pdin_n INTEGER NOT NULL , 
 pdie_n INTEGER NOT NULL , 
 ndf_n INTEGER NOT NULL,
-quantite INTEGER )
+quantite INTEGER ,
+id_v INTEGER NOT NULL,
+FOREIGN KEY(id_v) REFERENCES Vache(id_v) 
+)
       """);
     print("tables created");
   }
@@ -56,7 +59,7 @@ quantite INTEGER )
 
   static Future<sql.Database> db() async {
     return sql.openDatabase(
-      'DB_Bagraty.db',
+      'DataBase_Bagraty.db',
       version: 1,
       onCreate: (sql.Database database, int version) async {
         await createTables(database);
@@ -113,6 +116,7 @@ quantite INTEGER )
     required int pdie_n,
     required int ndf_n,
     required int quantite,
+    required int id_v,
   }) async {
     final db = await SQLHelper.db();
 
@@ -125,6 +129,7 @@ quantite INTEGER )
       'pdie_n': pdie_n,
       'ndf_n': ndf_n,
       'quantite': quantite,
+      "id_v": id_v,
     };
     final id = await db.insert('Nourriture', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
@@ -141,6 +146,7 @@ quantite INTEGER )
     required int ndf_n,
     required int quantite,
     required int id_n,
+    required int id_v,
   }) async {
     final db = await SQLHelper.db();
 
@@ -153,6 +159,7 @@ quantite INTEGER )
       'pdie_n': pdie_n,
       'ndf_n': ndf_n,
       'quantite': quantite,
+      'id_v': id_v,
     };
     final id = await db.insert('Nourriture', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
@@ -168,6 +175,7 @@ quantite INTEGER )
     required int pdie_n,
     required int ndf_n,
     required int quantite,
+    required int id_v,
   }) async {
     final db = await SQLHelper.db();
 
@@ -180,6 +188,7 @@ quantite INTEGER )
       'pdie_n': pdie_n,
       'ndf_n': ndf_n,
       'quantite': quantite,
+      'id_v': id_v,
     };
     final id = await db.insert('Nourriture', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
@@ -246,37 +255,46 @@ quantite INTEGER )
     return db.query('Vache', where: "id_v = ?", whereArgs: [id], limit: 1);
   }
 
-  Future insertExploitantData({nom_ex, nbr_vache, gov_ex, tel_ex}) async {
+  Future insertExploitantData({nom_ex, nbr_vache, gov_ex, tel_ex, mdp}) async {
     final db = await SQLHelper.db();
     await db.insert("Exploitant", {
       "nom_ex": nom_ex,
       "nbr_vache": nbr_vache,
       "gov_ex": gov_ex,
-      "tel_ex": tel_ex
+      "tel_ex": tel_ex,
+      "mdp": mdp
     });
     // ignore: avoid_print, unnecessary_brace_in_string_interps
     print("${nom_ex} added successfully");
     return "added";
   }
 
-  Future seConnecter({required int tel}) async {
+  int? id;
+  Future seConnecter({required int tel, required String mdp}) async {
     final db = await SQLHelper.db();
-    await db.rawQuery('SELECT * FROM Exploitant WHERE tel_ex=$tel ');
+    List result = await db.rawQuery(
+        "SELECT * FROM Exploitant WHERE tel_ex='$tel' AND mdp='$mdp' ");
 
-    return print({tel});
-  }
+    for (var exp in result.toList()) {
+      id = exp['id_ex'];
+    }
 
-  Future<int?> getCurrentExpId() async {
-    return ExpSession.currentExpId;
-  }
-
-  Future<void> setCurrentExp(int expId) async {
-    ExpSession.currentExpId = expId; // Stocke l'ID de l'utilisateur actif
+    return print(id);
   }
 
   static Future<List<Map<String, dynamic>>> getItems() async {
     final db = await SQLHelper.db();
     return db.query('Nourriture', orderBy: "id_n");
+  }
+
+  static Future<List<Map<String, dynamic>>> getAllExp() async {
+    final db = await SQLHelper.db();
+    return db.query('Exploitant', orderBy: "id_ex");
+  }
+
+  static Future<List<Map<String, dynamic>>> getAllVaches() async {
+    final db = await SQLHelper.db();
+    return db.query('Vache', orderBy: "id_v");
   }
 
   Future getUFLSomme() async {
@@ -418,20 +436,19 @@ quantite INTEGER )
     item = await SQLHelper.calculateCI(id: id);
 
     for (var vache in item) {
-      if (vache['parite'] == 'tarie' && _thi < 68) {
-        // _ci = (0.025 * vache['poid']) + (0.15 * vache['prod_lait']);
-
+      // _ci = (0.025 * vache['poid']) + (0.15 * vache['prod_lait']);
+      if (vache['parite'] == 'Tarie' && _thi < 68) {
         _ci = 1.4 * ((vache['poid'] / 100) + 2) - 1.5;
         print('vache tarie');
-      } else if (vache['parite'] == 'primipare' && _thi < 68 ||
-          vache['parite'] == 'multipare' && _thi < 68) {
+      } else if (vache['parite'] == 'Primipare' && _thi < 68 ||
+          vache['parite'] == 'Multipare' && _thi < 68) {
         print('vache primipare ou multipare');
         _ci = 1.4 * ((vache['poid'] / 100) + 2) + (0.3 * vache['prod_lait']);
-      } else if (_thi > 68 && vache['parite'] == 'tarie') {
+      } else if (_thi > 68 && vache['parite'] == 'Tarie') {
         _ciReduit = (_thi - thiSeuil) * 0.45;
         _ci = (1.4 * ((vache['poid'] / 100) + 2) - 1.5) - _ciReduit;
       } else if (_thi > 68 &&
-          (vache['parite'] == 'primipare' || vache['parite'] == 'multipare')) {
+          (vache['parite'] == 'Primipare' || vache['parite'] == 'Multipare')) {
         _ciReduit = (_thi - thiSeuil) * 0.45;
         _ci = (1.4 * ((vache['poid'] / 100) + 2) + (0.3 * vache['prod_lait'])) -
             _ciReduit;

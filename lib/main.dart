@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bagraty_project/Bagraty/BottomNavigation.dart';
 import 'package:bagraty_project/Bagraty/calculRation.dart';
+import 'package:bagraty_project/Bagraty/first_page.dart';
 import 'package:intl/intl.dart';
 import 'package:bagraty_project/Bagraty/AjoutVache.dart';
 import 'package:bagraty_project/Bagraty/BasicPage.dart';
@@ -37,6 +38,6 @@ class MyApp extends StatelessWidget {
           Locale('fr', 'FR'), // Support pour le français
           Locale('en', 'US'), // Support pour l'anglais (optionnel)
         ], */
-        home: Connexion()));
+        home: Bottomnavigation()));
   }
 }

@@ -42,6 +42,7 @@ class InscriptionExpState extends State<InscriptionExp> {
   final TextEditingController gouvernorat = TextEditingController();
   final TextEditingController tel = TextEditingController();
   final TextEditingController id_ex = TextEditingController();
+  final TextEditingController mdp = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,6 +84,7 @@ class InscriptionExpState extends State<InscriptionExp> {
           ),
         ),
         TextFormField(
+          keyboardType: TextInputType.number,
           cursorColor: const Color.fromARGB(255, 255, 255, 255),
 
           // ignore: prefer_const_constructors
@@ -124,6 +126,7 @@ class InscriptionExpState extends State<InscriptionExp> {
           ),
         ),
         TextFormField(
+          keyboardType: TextInputType.number,
           cursorColor: const Color.fromARGB(255, 255, 255, 255),
           controller: tel,
           // ignore: prefer_const_constructors
@@ -135,6 +138,30 @@ class InscriptionExpState extends State<InscriptionExp> {
               color: Colors.white,
             ),
             labelText: 'Téléphone',
+            labelStyle: TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
+            ),
+          ),
+        ),
+        const Divider(
+          height: 40.0,
+          color: Color.fromRGBO(0, 0, 0, 0),
+        ),
+        TextFormField(
+          cursorColor: const Color.fromARGB(255, 255, 255, 255),
+          controller: mdp,
+          // ignore: prefer_const_constructors
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+
+          decoration: const InputDecoration(
+            icon: Icon(
+              Icons.line_weight_sharp,
+              color: Colors.white,
+            ),
+            labelText: 'Mot de passe',
             labelStyle: TextStyle(
               color: Color.fromARGB(255, 255, 255, 255),
             ),
@@ -160,6 +187,7 @@ class InscriptionExpState extends State<InscriptionExp> {
                 nbr_vache: int.parse(nbr_vache.text),
                 gov_ex: gouvernorat.text,
                 tel_ex: int.parse(tel.text),
+                mdp: mdp.text,
               );
 
               //  final rows = await db.query('my_table');

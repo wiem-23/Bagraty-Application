@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously, non_constant_identifier_names
 
 import 'package:bagraty_project/Bagraty/Inscription.dart';
+
 import 'package:bagraty_project/Bagraty/menu.dart';
 import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 
@@ -18,7 +19,7 @@ class Connexion extends StatefulWidget {
 
 class ConnexionState extends State<Connexion> {
   final TextEditingController tel = TextEditingController();
-  final TextEditingController nom_exploitant = TextEditingController();
+  final TextEditingController mdp = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +46,13 @@ class ConnexionState extends State<Connexion> {
 
               // ignore: prefer_const_constructors
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-              controller: nom_exploitant,
+              controller: tel,
               decoration: const InputDecoration(
                 icon: Icon(
-                  Icons.line_weight_sharp,
+                  Icons.man_2_outlined,
                   color: Colors.white,
                 ),
-                labelText: 'Nom Exploitant',
+                labelText: 'Téléphone',
                 labelStyle: TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
@@ -66,13 +67,13 @@ class ConnexionState extends State<Connexion> {
 
               // ignore: prefer_const_constructors
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-              controller: tel,
+              controller: mdp,
               decoration: const InputDecoration(
                 icon: Icon(
-                  Icons.man_2_outlined,
+                  Icons.line_weight_sharp,
                   color: Colors.white,
                 ),
-                labelText: 'Téléphone',
+                labelText: 'Mot de passe',
                 labelStyle: TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
@@ -96,7 +97,8 @@ class ConnexionState extends State<Connexion> {
                     minWidth: 2,
                     padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
                     onPressed: () async {
-                      await SQLHelper().seConnecter(tel: int.parse(tel.text));
+                      await SQLHelper()
+                          .seConnecter(tel: int.parse(tel.text), mdp: mdp.text);
 
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) => Menu()));

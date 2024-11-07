@@ -2,6 +2,8 @@ import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 import 'package:flutter/material.dart';
 
 class Apports extends StatefulWidget {
+  const Apports({super.key, this.id_v});
+  final int? id_v;
   @override
   _ApportsState createState() => _ApportsState();
 }
@@ -19,6 +21,12 @@ class _ApportsState extends State<Apports> {
   double _apportpdie = 0.0;
   double _apportpdin = 0.0;
   double _ci = 0.0;
+  double btufl = 0.0;
+
+  double btpdi = 0.0;
+  double restufl = 0.0;
+  double restpdin = 0.0;
+  double restpdie = 0.0;
 
   @override
   void initState() {
@@ -28,19 +36,11 @@ class _ApportsState extends State<Apports> {
     _calculatePDIETotal();
     _calculatePDINTotal();
     _calculateCIforComparaison();
+    _getResteUFL();
   }
 
   Future<void> _calculateCIforComparaison() async {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    SQLHelper db = SQLHelper();
-
-    await db.setCurrentExp(1);
-
-    int? currentUserId = await db.getCurrentExpId();
-
-    print('ID de l\'utilisateur actuel : $currentUserId');
-    var _ci = await SQLHelper().calcCITotal(id: currentUserId);
+    var _ci = await SQLHelper().calcCITotal(id: widget.id_v);
 
     print('CIIIIIIIIII: $_ci');
   }
@@ -137,82 +137,203 @@ class _ApportsState extends State<Apports> {
     print('Totalufl: $_apport');
   }
 
+  Future<double?> _getResteUFL() async {
+    btufl = (await SQLHelper().besoinsTotauxUFL(id: 1))!;
+    restufl = _apport - btufl;
+    return restufl;
+  }
+
+  Future<double?> _getRestePDIE() async {
+    btpdi = (await SQLHelper().besoinsTotauxPDI(id: 1))!;
+    restpdie = _apportpdie - btpdi;
+    print(restpdie);
+    return restpdie;
+  }
+
+  Future<double?> _getRestePDIN() async {
+    btpdi = (await SQLHelper().besoinsTotauxPDI(id: 1))!;
+    restpdin = _apportpdin - btpdi;
+    return restpdin;
+  }
+
   Widget build(BuildContext context) {
     return Container(
-        child: Column(
-      children: [
-        DataTable(
-            columnSpacing: 30,
-            horizontalMargin: 20.0,
-            headingRowColor: const WidgetStatePropertyAll(Color(0XFF035B6F)),
-            dataRowColor: const WidgetStatePropertyAll(Colors.white),
-            columns: const [
-              DataColumn(
-                  headingRowAlignment: MainAxisAlignment.center,
-                  label: Text(
-                    "App MS",
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic, color: Colors.white),
-                    textAlign: TextAlign.end,
-                  )),
-              DataColumn(
-                  headingRowAlignment: MainAxisAlignment.center,
-                  label: Text(
-                    "App UFL",
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic, color: Colors.white),
-                    textAlign: TextAlign.end,
-                  )),
-              DataColumn(
-                  headingRowAlignment: MainAxisAlignment.center,
-                  label: Text(
-                    "App PDIE",
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic, color: Colors.white),
-                    textAlign: TextAlign.end,
-                  )),
-              DataColumn(
-                  headingRowAlignment: MainAxisAlignment.center,
-                  label: Text(
-                    "App PDIN",
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic, color: Colors.white),
-                    textAlign: TextAlign.end,
-                  )),
-            ],
-            rows: [
-              DataRow(cells: [
-                DataCell(Text((_apportms.toStringAsFixed(2)).toString(),
-                    style: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: Color(0XFF035B6F)))),
-                DataCell(
-                  Text(_apport.toStringAsFixed(2),
-                      style: const TextStyle(
-                          fontStyle: FontStyle.italic,
-                          color: Color(0XFF035B6F))),
-                ),
-                DataCell(Text(_apportpdie.toStringAsFixed(2).toString(),
-                    style: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: Color(0XFF035B6F)))),
-                DataCell(Text(_apportpdin.toStringAsFixed(2).toString(),
-                    style: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: Color(0XFF035B6F)))),
-              ])
-            ]),
-        if (_apportms < _ci)
-          const Text(
-              "« Alerte : La capacité d’ingestion de votre vache n’est pas saturée. Augmentez la quantité des fourrages distribuées»"),
-        if (_apportms > _ci)
-          const Text(
-              "« Alerte : La capacité d’ingestion de votre vache est sursaturée. Diminuer la quantité des fourrages distribuées. »"),
-        if (_apportst > (_apportms / 2))
-          const Text(
-              "« Alerte : Attention vous comptez distribuer plus de 50 % de concentré dans votre ration .Diminuez la quantité de concentré distribuée. »")
-      ],
-    ));
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          stops: [0.0, 0.5, 1.0],
+          colors: [
+            Color(0XFF035B6F),
+            Color.fromARGB(255, 193, 192, 192),
+            Color(0XFF708908),
+          ],
+        )),
+        child: Center(
+            child: Column(
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            const Text("Les apports ",
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold)),
+            const SizedBox(
+              height: 30,
+            ),
+            DataTable(
+                columnSpacing: 20,
+                horizontalMargin: 10.0,
+                headingRowColor:
+                    const WidgetStatePropertyAll(Color(0XFF035B6F)),
+                dataRowColor: const WidgetStatePropertyAll(Colors.white),
+                columns: const [
+                  DataColumn(
+                      headingRowAlignment: MainAxisAlignment.center,
+                      label: Text(
+                        "Apports",
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic, color: Colors.white),
+                        textAlign: TextAlign.end,
+                      )),
+                  DataColumn(
+                      headingRowAlignment: MainAxisAlignment.center,
+                      label: Text(
+                        "MS",
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic, color: Colors.white),
+                        textAlign: TextAlign.end,
+                      )),
+                  DataColumn(
+                      headingRowAlignment: MainAxisAlignment.center,
+                      label: Text(
+                        "UFL",
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic, color: Colors.white),
+                        textAlign: TextAlign.end,
+                      )),
+                  DataColumn(
+                      headingRowAlignment: MainAxisAlignment.center,
+                      label: Text(
+                        "PDIE",
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic, color: Colors.white),
+                        textAlign: TextAlign.end,
+                      )),
+                  DataColumn(
+                      headingRowAlignment: MainAxisAlignment.center,
+                      label: Text(
+                        "PDIN",
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic, color: Colors.white),
+                        textAlign: TextAlign.end,
+                      )),
+                ],
+                rows: [
+                  DataRow(cells: [
+                    const DataCell(Text('Total',
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                    DataCell(Text((_apportms.toStringAsFixed(2)).toString(),
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                    DataCell(
+                      Text(_apport.toStringAsFixed(2),
+                          style: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Color(0XFF035B6F))),
+                    ),
+                    DataCell(Text(_apportpdie.toStringAsFixed(2).toString(),
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                    DataCell(Text(_apportpdin.toStringAsFixed(2).toString(),
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Reste PL',
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                    const DataCell(Text(('//'),
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                    DataCell(
+                      Text((restufl.toStringAsFixed(2)),
+                          style: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Color(0XFF035B6F))),
+                    ),
+                    DataCell(Text(restpdie.toStringAsFixed(2),
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                    DataCell(Text(restpdin.toStringAsFixed(2),
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Qté Lait',
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                    const DataCell(Text(('//'),
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                    DataCell(
+                      Text((restufl / 0.45).toStringAsFixed(2),
+                          style: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Color(0XFF035B6F))),
+                    ),
+                    DataCell(Text((restpdie / 48).toStringAsFixed(2),
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                    DataCell(Text((restpdin / 48).toStringAsFixed(2).toString(),
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Color(0XFF035B6F)))),
+                  ])
+                ]),
+            const SizedBox(
+              height: 30,
+            ),
+            if (_apportms < _ci)
+              const Text(
+                  "« Alerte : La capacité d’ingestion de votre vache n’est pas saturée. Augmentez la quantité des fourrages distribuées»",
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 128, 10, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold)),
+            if (_apportms > _ci)
+              const Text(
+                  "« Alerte : La capacité d’ingestion de votre vache est sursaturée. Diminuer la quantité des fourrages distribuées. »",
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 128, 10, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold)),
+            if (_apportst > (_apportms / 2))
+              const Text(
+                  "« Alerte : Attention vous comptez distribuer plus de 50 % de concentré dans votre ration .Diminuez la quantité de concentré distribuée. »",
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 128, 10, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold)),
+          ],
+        )));
   }
 }
  /*  @override

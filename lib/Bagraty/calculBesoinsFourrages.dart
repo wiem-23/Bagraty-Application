@@ -7,7 +7,7 @@ import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 import 'package:flutter/material.dart';
 
 class CalculBesoinsFourrages extends StatefulWidget {
-  const CalculBesoinsFourrages({Key? key}) : super(key: key);
+  const CalculBesoinsFourrages({super.key});
 
   @override
   _CalculBesoinsFourragesState createState() => _CalculBesoinsFourragesState();
@@ -305,10 +305,11 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         pdin_n: int.parse(_pdinController.text),
         pdie_n: int.parse(_pdieController.text),
         ndf_n: int.parse(_ndfController.text),
+        id_v: widget.hashCode,
         quantite: 0);
     print("add");
-    /* 
-     await SQLHelper.createItem(
+
+    /*  await SQLHelper.createItem(
         id_n: 2,
         motif_n: "concentre",
         nom_n: "Pulpe de Betterave",
@@ -367,8 +368,8 @@ class _CalculBesoinsFourragesState extends State<CalculBesoinsFourrages> {
         pdin_n: 150,
         pdie_n: 140,
         ndf_n: 200,
-        quantite: 0); */
-    /* await SQLHelper.createItem(
+        quantite: 0);
+    await SQLHelper.createItem(
         id_n: 8,
         motif_n: "fourrage",
         nom_n: "Foin d’avoine",

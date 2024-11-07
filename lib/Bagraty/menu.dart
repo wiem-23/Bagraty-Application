@@ -31,26 +31,6 @@ class MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.back_hand),
-              label: 'Retour',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
-              label: 'Menu',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.cancel),
-              label: 'Déconn',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: const Color(0xff708907),
-          onTap: _onItemTapped,
-        ),
         body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -68,8 +48,10 @@ class MenuState extends State<Menu> {
             )),
             child: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         margin: const EdgeInsets.only(bottom: 10),
@@ -88,7 +70,7 @@ class MenuState extends State<Menu> {
                         }),
                       ),
                       const Text(
-                        'calcul besoins',
+                        'Animal',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
@@ -97,28 +79,6 @@ class MenuState extends State<Menu> {
                   const Divider(
                     height: 10.0,
                     color: Color.fromRGBO(0, 0, 0, 0),
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: CalculBesoinsFourrages(),
-                        margin: const EdgeInsets.only(bottom: 10),
-                        width: 130.0,
-                        height: 130.0,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/etat-corp.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      const Text(
-                        'calcul ration',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ],
                   ),
                   const Divider(
                     height: 10.0,
