@@ -18,6 +18,7 @@ tel_ex INTEGER NOT NULL,
 mdp TEXT
 )
       """);
+
     await database.execute("""CREATE TABLE Vache(
 id_v INTEGER  PRIMARY KEY AUTOINCREMENT, 
 parite TEXT,

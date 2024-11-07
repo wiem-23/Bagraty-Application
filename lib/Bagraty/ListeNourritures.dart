@@ -12,8 +12,8 @@ import 'package:bagraty_project/Bagraty/sqlHelper.dart';
 import 'package:flutter/material.dart';
 
 class Listenourritures extends StatefulWidget {
-  int? id_v;
-  Listenourritures({super.key, required int id_v});
+  final int id_v;
+  Listenourritures({super.key, required this.id_v});
 
   @override
   _ListenourrituresState createState() => _ListenourrituresState();
@@ -252,7 +252,7 @@ class _ListenourrituresState extends State<Listenourritures> {
             ));
   }
 
-  void _showTable(int? id) async {
+  void _showTable(int? id, int? id_v) async {
     if (id != null) {
       // id == null -> create new item
       // id != null -> update an existing item
@@ -282,7 +282,7 @@ class _ListenourrituresState extends State<Listenourritures> {
                   const SizedBox(
                     height: 50,
                   ),
-                  const Apports(),
+                  Apports(),
                   const SizedBox(
                     height: 50,
                   ),
@@ -562,7 +562,7 @@ class _ListenourrituresState extends State<Listenourritures> {
                                     iconSize: 18,
                                     icon: const Icon(Icons.remove_red_eye),
                                     onPressed: () =>
-                                        _showTable(_nourritures[index]['id_n']),
+                                        _showTable(_nourritures[index]['id_n'], widget.id_v),
                                   ),
                                   IconButton(
                                     color: const Color(0XFF035B6F),
@@ -593,7 +593,7 @@ class _ListenourrituresState extends State<Listenourritures> {
                 padding: const EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
                 onPressed: () {
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Apports()));
+                      .push(MaterialPageRoute(builder: (context) => Apports(id_v: widget.id_v)));
                 },
                 child: const Text(
                   "Apports",

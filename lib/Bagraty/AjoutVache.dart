@@ -57,6 +57,15 @@ class AjoutvacheState extends State<Ajoutvache> {
     super.initState();
     error = false;
 
+    id_v.text = "10";
+    id_p.text = "2";
+    id_m.text = "2";
+    poids_v.text = "500";
+    age.text = "5";
+    mois_g.text = "5";
+    temperature.text = "85";
+    humidite.text = "10";
+
     daate = '';
     prod_lait.text = '';
   }
@@ -756,6 +765,6 @@ class AjoutvacheState extends State<Ajoutvache> {
               // this will prevent the soft keyboard from covering the text fields
               bottom: MediaQuery.of(context).viewInsets.bottom + 50,
             ),
-            child: Listenourritures(id_v: int.parse(id_v.text))));
+            child: Listenourritures(id_v: id)));
   }
 }

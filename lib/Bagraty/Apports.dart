@@ -40,6 +40,8 @@ class _ApportsState extends State<Apports> {
     _calculatePDINTotal();
     _calculateCIforComparaison();
     _getResteUFL();
+    _getRestePDIE();
+    _getRestePDIN();
     _calculateNDFTotal();
   }
 
@@ -62,7 +64,8 @@ class _ApportsState extends State<Apports> {
   Future<void> _calculateCIforComparaison() async {
     var _ci = await SQLHelper().calcCITotal(id: widget.id_v);
 
-    print('CIIIIIIIIII: $_ci');
+    print('Apport widget.id_v: ${widget.id_v}');
+    print('Apport CIIIIIIIIII: $_ci');
   }
 
   Future<void> _calculatePDINTotal() async {
@@ -148,23 +151,31 @@ class _ApportsState extends State<Apports> {
   }
 
   Future<double?> _getResteUFL() async {
-    btufl = (await SQLHelper().besoinsTotauxUFL(id: 1))!;
+    btufl = (await SQLHelper().besoinsTotauxUFL(id: widget.id_v))!;
     restufl = _apport - btufl;
-    return restufl;
+    setState(() {
+      restufl= restufl;
+    });
   }
 
   Future<double?> _getRestePDIE() async {
-    btpdi = (await SQLHelper().besoinsTotauxPDI(id: 1))!;
+    btpdi = (await SQLHelper().besoinsTotauxPDI(id: widget.id_v))!;
 
     restpdie = _apportpdie - btpdi;
 
-    return restpdie;
+    setState(() {
+      restpdie= restpdie;
+    });
   }
 
   Future<double?> _getRestePDIN() async {
-    btpdi = (await SQLHelper().besoinsTotauxPDI(id: 1))!;
+    print('_getRestePDIN: ${widget.id_v}');
+    btpdi = (await SQLHelper().besoinsTotauxPDI(id: widget.id_v))!;
     restpdin = _apportpdin - btpdi;
-    return restpdin;
+
+    setState(() {
+      restpdin= restpdin;
+    });
   }
 
   Widget build(BuildContext context) {
