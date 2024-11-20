@@ -31,124 +31,140 @@ class ConnexionState extends State<Connexion> {
         ),
       ),
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.fromLTRB(40.0, 100.0, 40.0, 100.0),
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [0.0, 0.5, 1.0],
-          colors: [
-            Color(0XFF035B6F),
-            Color.fromARGB(255, 194, 192, 192),
-            Color(0XFF708908),
-          ],
-        )),
-        child: SingleChildScrollView(scrollDirection:Axis.vertical,child:   Column(
-          children: [
-            TextFormField(
-              cursorColor: const Color.fromARGB(255, 255, 255, 255),
-
-              // ignore: prefer_const_constructors
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-              controller: tel,
-              decoration: const InputDecoration(
-                icon: Icon(
-                  Icons.man_2_outlined,
-                  color: Colors.white,
-                ),
-                labelText: 'Téléphone',
-                labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                  BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
-                ),
-              ),
-            ),
-            TextFormField(
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-
-              cursorColor: const Color.fromARGB(255, 255, 255, 255),
-
-              // ignore: prefer_const_constructors
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-              controller: mdp,
-              decoration: const InputDecoration(
-                icon: Icon(
-                  Icons.password,
-                  color: Colors.white,
-                ),
-                labelText: 'Mot de passe',
-                labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                  BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
-                ),
-              ),
-            ),
-            const Divider(
-              height: 40.0,
-              color: Color.fromRGBO(0, 0, 0, 0),
-            ),
-            Column(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.fromLTRB(40.0, 100.0, 40.0, 100.0),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.0, 0.5, 1.0],
+            colors: [
+              Color(0XFF035B6F),
+              Color.fromARGB(255, 194, 192, 192),
+              Color(0XFF708908),
+            ],
+          )),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
               children: [
+                TextFormField(
+                  cursorColor: const Color.fromARGB(255, 255, 255, 255),
 
-                MaterialButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
+                  // ignore: prefer_const_constructors
+                  style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                  controller: tel,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.man_2_outlined,
+                      color: Colors.white,
                     ),
-                    color: const Color(0xff708907),
-                    minWidth: 2,
-                    padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                    onPressed: () async {
-                      int idTest = await SQLHelper()
-                          .seConnecter(tel: int.parse(tel.text), mdp: mdp.text);
-
-                      if (idTest != 0) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const Menu()));
-                      } else {
-                        null;
-                      }
-                    },
-                    child: const Text(
-                      "Se connecter",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Color(0xffffffff),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-                const SizedBox(
-                  height: 20,
+                    labelText: 'Téléphone',
+                    labelStyle: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
+                    ),
+                  ),
                 ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const InscriptionExp()));
-                    },
-                    child: const Text(
-                      'creer un compte',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      selectionColor: Color(0XFF035B6F),
-                    ))
+                TextFormField(
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+
+                  cursorColor: const Color.fromARGB(255, 255, 255, 255),
+
+                  // ignore: prefer_const_constructors
+                  style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                  controller: mdp,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.password,
+                      color: Colors.white,
+                    ),
+                    labelText: 'Mot de passe',
+                    labelStyle: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
+                    ),
+                  ),
+                ),
+                const Divider(
+                  height: 40.0,
+                  color: Color.fromRGBO(0, 0, 0, 0),
+                ),
+                Column(
+                  children: [
+                    MaterialButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        color: const Color(0xff708907),
+                        minWidth: 2,
+                        padding:
+                            const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                        onPressed: () async {
+                          int idTest = await SQLHelper().seConnecter(
+                              tel: int.parse(tel.text), mdp: mdp.text);
+
+                          if (idTest != 0) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const Menu()));
+                          } else {
+                            null;
+                          }
+                        },
+                        child: const Text(
+                          "Se connecter",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Color(0xffffffff),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const InscriptionExp()));
+                        },
+                        child: const Text(
+                          'creer un compte',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                          selectionColor: Color(0XFF035B6F),
+                        )),
+                    SizedBox(
+                      height: 80,
+                    ),
+                    // ignore: unnecessary_const
+                    Image.asset(
+                      'assets/images/inat.png',
+                      height: 60,
+                      width: 222,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text('Créée pa ASMA Selmi',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ))
+                  ],
+                )
               ],
-            )
-          ],
-        ),)
-
-
-      ),
+            ),
+          )),
     );
   }
 }

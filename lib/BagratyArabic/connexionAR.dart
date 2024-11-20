@@ -145,6 +145,22 @@ class ConnexionARState extends State<ConnexionAR> {
                         color: Colors.white,
                       ),
                       selectionColor: Color(0XFF035B6F),
+                    )),
+                SizedBox(
+                  height: 80,
+                ),
+                // ignore: unnecessary_const
+                Image.asset(
+                  'assets/images/inat.png',
+                  height: 60,
+                  width: 222,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text('من تصميم أسماء سالمي ',
+                    style: TextStyle(
+                      color: Colors.white,
                     ))
               ],
             )

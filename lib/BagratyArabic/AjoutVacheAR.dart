@@ -60,7 +60,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
     id_m.text = "TN";
   }
 
-  DateTime? pickedDate;
+  DateTime? pickedDate = DateTime.now();
   Future<void> _selectDate(BuildContext context) async {
     // Afficher le DatePicker
     pickedDate = await showDatePicker(
@@ -143,10 +143,13 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
 
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'معرف البقرة ',
                   labelStyle: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
+                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
                         BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
@@ -160,10 +163,13 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
 
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'معرف الاب',
                   labelStyle: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
+                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
                         BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
@@ -177,8 +183,13 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
 
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'معرف الام',
                   labelStyle: TextStyle(
+                    fontSize: 13,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -200,8 +211,13 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
 
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'الوزن الحي',
                   labelStyle: TextStyle(
+                    fontSize: 13,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -219,9 +235,14 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 cursorColor: Color.fromARGB(255, 255, 255, 255),
                 controller: age,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
 
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'Age 1er velage',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -234,16 +255,21 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
               ),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
+                    hintStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal),
                     enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.white), // Couleur de la bordure
-                )),
+                      borderSide: BorderSide(
+                          color: Colors.white), // Couleur de la bordure
+                    )),
                 isExpanded: true,
                 elevation: 100,
                 hint: Text('الولادات',
                     style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
-                        fontWeight: FontWeight.normal)),
+                        fontWeight: FontWeight.normal,
+                        fontSize: 13)),
                 value: _selectedOption,
                 onChanged: (String? newValue) {
                   setState(() {
@@ -262,7 +288,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                     value: value,
                     child: Text(
                       value,
-                      style: TextStyle(color: Color(0XFF035B6F)),
+                      style: TextStyle(color: Color(0XFF035B6F), fontSize: 13),
                     ),
                   );
                 }).toList(),
@@ -281,11 +307,17 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 controller: prod_lait,
 
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
 
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'إنتاج الحليب يوميا',
                   labelStyle: TextStyle(
+                    fontSize: 13,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -303,13 +335,17 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 cursorColor: Color.fromARGB(255, 255, 255, 255),
                 controller: mois_g,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
 
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'شهر الحمل',
                   labelStyle: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
+                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
                         BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
@@ -321,12 +357,18 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 cursorColor: Color.fromARGB(255, 255, 255, 255),
                 controller: temperature,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
 
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'الحرارة ',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 13,
                   ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
@@ -339,14 +381,20 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 cursorColor: Color.fromARGB(255, 255, 255, 255),
                 controller: humidite,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
 
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   focusColor: Colors.white,
                   hoverColor: Colors.white,
                   labelText: 'الرطوبة ',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 13,
                   ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
@@ -359,11 +407,13 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                   readOnly: true, // Rendre le champ en lecture seule
                   decoration: InputDecoration(
                       labelText: 'التاريخ',
-                      labelStyle: TextStyle(color: Colors.white, fontSize: 15),
-                      hintText: pickedDate.toString(),
+                      labelStyle: TextStyle(color: Colors.white, fontSize: 13),
+                      hintText: DateFormat('yyyy-MM-dd')
+                          .format(pickedDate!)
+                          .toString(),
                       hintStyle: TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 13,
                           fontWeight: FontWeight.normal),
                       suffixIcon: IconButton(
                           icon: Icon(Icons.calendar_today),
@@ -519,7 +569,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                           DataColumn(
                               headingRowAlignment: MainAxisAlignment.center,
                               label: Text(
-                                "القيمة ",
+                                "القيمة",
                                 style: TextStyle(
                                     fontStyle: FontStyle.italic,
                                     color: Colors.white),
@@ -541,15 +591,17 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                                 style: TextStyle(
                                     fontStyle: FontStyle.italic,
                                     color: Color(0XFF035B6F)))),
-                            DataCell(Text("القدرة على الإبتلاع ",
-                                textAlign: TextAlign.end,
+                            DataCell(Text("                القدرة على الإبتلاع",
+                                textAlign: TextAlign.right,
                                 style: TextStyle(
+                                    fontSize: 13,
                                     fontStyle: FontStyle.italic,
                                     color: Color(0XFF035B6F)))),
                           ]),
                           DataRow(cells: [
                             DataCell(Text(thi!.toStringAsFixed(2).toString(),
                                 style: TextStyle(
+                                    fontSize: 13,
                                     fontStyle: FontStyle.italic,
                                     color: Color(0XFF035B6F)))),
                             DataCell(Text("مؤشر درجة الحرارة والرطوبة",
@@ -566,6 +618,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                             DataCell(Text('الاحتياجات الجملية من البروتين',
                                 textAlign: TextAlign.end,
                                 style: TextStyle(
+                                    fontSize: 13,
                                     fontStyle: FontStyle.italic,
                                     color: Color(0XFF035B6F)))),
                           ]),
@@ -577,6 +630,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                             DataCell(Text('الاحتياجات الجملية من الطاقة',
                                 textAlign: TextAlign.end,
                                 style: TextStyle(
+                                    fontSize: 13,
                                     fontStyle: FontStyle.italic,
                                     color: Color(0XFF035B6F)))),
                           ]),
@@ -585,13 +639,13 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       height: 20,
                     ),
                     if (thi < 68)
-                      Text('THI < 68  لا يوجد ضغط الحرارة للأبقار ',
+                      Text('THI < 68  لا يوجد ضغط الحرارة للأبقار',
                           style: TextStyle(
                               color: Color.fromARGB(255, 128, 10, 1),
                               fontSize: 14,
                               fontWeight: FontWeight.bold)),
                     if (thi >= 68 && thi <= 98)
-                      Text(' THI > 68 بقرة تحت ضغط الحرارة  ',
+                      Text(' THI > 68 بقرة تحت ضغط الحرارة',
                           style: TextStyle(
                               color: Color.fromARGB(255, 128, 10, 1),
                               fontSize: 14,
@@ -688,7 +742,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
           content: Text("الرجاء إدخال الرقم التعريفي"),
           actions: <Widget>[
             TextButton(
-              child: Text('OK'),
+              child: Text('موافق'),
               onPressed: () {
                 Navigator.of(context).pop(); // Ferme la boîte de dialogue
               },

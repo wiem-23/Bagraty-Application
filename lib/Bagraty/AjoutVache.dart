@@ -150,6 +150,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                 style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
 
                 decoration: const InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'ID vache',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -167,6 +171,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                 style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
 
                 decoration: const InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'ID père',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -184,6 +192,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                 style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
 
                 decoration: const InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'ID mère',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -207,6 +219,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                 style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
 
                 decoration: const InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'Poids vif',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -229,6 +245,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                 style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
 
                 decoration: const InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'Age 1er velage',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -241,10 +261,12 @@ class AjoutvacheState extends State<Ajoutvache> {
               ),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
+                    hintStyle:
+                        TextStyle(fontSize: 13, fontWeight: FontWeight.normal),
                     enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.white), // Couleur de la bordure
-                )),
+                      borderSide: BorderSide(
+                          color: Colors.white), // Couleur de la bordure
+                    )),
                 isExpanded: true,
                 elevation: 100,
                 hint: const Text('Parité',
@@ -288,9 +310,14 @@ class AjoutvacheState extends State<Ajoutvache> {
                 controller: prod_lait,
 
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
 
                 decoration: const InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'Production laitière journalière',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -310,9 +337,14 @@ class AjoutvacheState extends State<Ajoutvache> {
                 cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 controller: mois_g,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
 
                 decoration: const InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'Mois de gestation',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -328,9 +360,14 @@ class AjoutvacheState extends State<Ajoutvache> {
                 cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 controller: temperature,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
 
                 decoration: const InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   labelText: 'Température ',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -346,9 +383,16 @@ class AjoutvacheState extends State<Ajoutvache> {
                 cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 controller: humidite,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: 13,
+                ),
 
                 decoration: const InputDecoration(
+                  hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                   focusColor: Colors.white,
                   hoverColor: Colors.white,
                   labelText: 'Humidité',
@@ -366,9 +410,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                   readOnly: true, // Rendre le champ en lecture seule
                   decoration: InputDecoration(
                       labelText: 'Date',
-                      labelStyle:
-                          const TextStyle(color: Colors.white, fontSize: 15),
-                      hintText: pickedDate.toString(),
+                      labelStyle: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      //   hintText: pickedDate.toString(),
                       hintStyle: const TextStyle(
                           color: Colors.white,
                           fontSize: 15,

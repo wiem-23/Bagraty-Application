@@ -46,13 +46,14 @@ class _ApportsState extends State<Apports> {
     _getResteUFL();
     _getRestePDIE();
     _getRestePDIN();
-    _calculateNDFTotal();
+    _calclNDFTotal();
   }
 
-  Future<void> _calculateNDFTotal() async {
-    pdieList = await SQLHelper().calculateNDFTotal();
+  Future<double> _calclNDFTotal() async {
+    ndfList = await SQLHelper().calculateNDFTotal();
     double apportndf = 0.0;
     double totalndf = 0.0;
+    print("ndfList$ndfList");
     for (var nourriture in ndfList) {
       totalndf += (nourriture['quantite'] * (nourriture['ms_n'] / 100)) *
           nourriture['ndf_n'];
@@ -63,6 +64,8 @@ class _ApportsState extends State<Apports> {
     setState(() {
       _apportndf = apportndf;
     });
+
+    return _apportndf;
   }
 
   Future<double> _calculateCIforComparaison() async {
@@ -479,7 +482,7 @@ class _ApportsState extends State<Apports> {
                             const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  Ajoutvache()));
+                              builder: (context) => Ajoutvache()));
                         },
                         child: const Text(
                           "Autre Vache",

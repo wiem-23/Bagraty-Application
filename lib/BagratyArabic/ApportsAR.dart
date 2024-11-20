@@ -47,13 +47,15 @@ class _ApportsARState extends State<ApportsAR> {
     _getResteUFL();
     _getRestePDIE();
     _getRestePDIN();
-    _calculateNDFTotal();
+    _calclNDFTotal();
   }
 
-  Future<void> _calculateNDFTotal() async {
-    pdieList = await SQLHelper().calculateNDFTotal();
+  Future<double> _calclNDFTotal() async {
+
+    ndfList = await SQLHelper().calculateNDFTotal();
     double apportndf = 0.0;
     double totalndf = 0.0;
+    print("ndfList$ndfList");
     for (var nourriture in ndfList) {
       totalndf += (nourriture['quantite'] * (nourriture['ms_n'] / 100)) *
           nourriture['ndf_n'];
@@ -64,6 +66,8 @@ class _ApportsARState extends State<ApportsAR> {
     setState(() {
       _apportndf = apportndf;
     });
+ 
+    return _apportndf;
   }
 
   Future<double> _calculateCIforComparaison() async {
@@ -217,23 +221,23 @@ class _ApportsARState extends State<ApportsAR> {
                   height: 30,
                 ),
                 DataTable(
-                    columnSpacing: 20,
+                    columnSpacing: 25,
                     horizontalMargin: 10.0,
                     headingRowColor:
                         const WidgetStatePropertyAll(Color(0XFF035B6F)),
                     dataRowColor: const WidgetStatePropertyAll(Colors.white),
                     columns: const [
                       DataColumn(
-                          headingRowAlignment: MainAxisAlignment.center,
+                          headingRowAlignment: MainAxisAlignment.end,
                           label: Text(
                             "MS",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 color: Colors.white),
-                            textAlign: TextAlign.end,
+                            textAlign: TextAlign.start,
                           )),
                       DataColumn(
-                          headingRowAlignment: MainAxisAlignment.center,
+                          headingRowAlignment: MainAxisAlignment.end,
                           label: Text(
                             "UFL",
                             style: TextStyle(
@@ -242,7 +246,7 @@ class _ApportsARState extends State<ApportsAR> {
                             textAlign: TextAlign.end,
                           )),
                       DataColumn(
-                          headingRowAlignment: MainAxisAlignment.center,
+                          headingRowAlignment: MainAxisAlignment.end,
                           label: Text(
                             "PDIE",
                             style: TextStyle(
@@ -251,7 +255,7 @@ class _ApportsARState extends State<ApportsAR> {
                             textAlign: TextAlign.end,
                           )),
                       DataColumn(
-                          headingRowAlignment: MainAxisAlignment.center,
+                          headingRowAlignment: MainAxisAlignment.end,
                           label: Text(
                             "PDIN",
                             style: TextStyle(
@@ -260,7 +264,7 @@ class _ApportsARState extends State<ApportsAR> {
                             textAlign: TextAlign.end,
                           )),
                       DataColumn(
-                          headingRowAlignment: MainAxisAlignment.center,
+                          headingRowAlignment: MainAxisAlignment.end,
                           label: Text(
                             "الإضافات",
                             style: TextStyle(
@@ -274,77 +278,91 @@ class _ApportsARState extends State<ApportsAR> {
                         DataCell(Text(_apportms.toStringAsFixed(2),
                             style: const TextStyle(
                                 fontStyle: FontStyle.italic,
+                                fontSize: 11,
                                 color: Color(0XFF035B6F)))),
                         DataCell(
                           Text(_apport.toStringAsFixed(2),
                               style: const TextStyle(
+                                  fontSize: 11,
                                   fontStyle: FontStyle.italic,
                                   color: Color(0XFF035B6F))),
                         ),
                         DataCell(Text(_apportpdie.toStringAsFixed(2),
                             style: const TextStyle(
+                                fontSize: 11,
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
                         DataCell(Text(_apportpdin.toStringAsFixed(2),
                             style: const TextStyle(
                                 fontStyle: FontStyle.italic,
+                                fontSize: 11,
                                 color: Color(0XFF035B6F)))),
-                        const DataCell(Text('المجموع',
+                        const DataCell(Text('      المجموع',
                             textAlign: TextAlign.end,
                             style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                color: Color(0XFF035B6F),
-                                fontSize: 13))),
+                              fontSize: 11,
+                              fontStyle: FontStyle.italic,
+                              color: Color(0XFF035B6F),
+                            ))),
                       ]),
                       DataRow(cells: [
                         const DataCell(Text(('//'),
                             textAlign: TextAlign.start,
                             style: TextStyle(
+                                fontSize: 11,
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
                         DataCell(
                           Text((restufl.toStringAsFixed(2)),
                               style: const TextStyle(
                                   fontStyle: FontStyle.italic,
+                                  fontSize: 11,
                                   color: Color(0XFF035B6F))),
                         ),
                         DataCell(Text(restpdie.toStringAsFixed(2),
                             style: const TextStyle(
                                 fontStyle: FontStyle.italic,
+                                fontSize: 11,
                                 color: Color(0XFF035B6F)))),
                         DataCell(Text(restpdin.toStringAsFixed(2),
                             style: const TextStyle(
                                 fontStyle: FontStyle.italic,
+                                fontSize: 11,
                                 color: Color(0XFF035B6F)))),
                         const DataCell(Text('الباقي لإنتاج الحليب',
                             style: TextStyle(
-                                fontSize: 13,
+                                letterSpacing: 0.5,
+                                fontSize: 11,
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
                       ]),
                       DataRow(cells: [
                         const DataCell(Text(('//'),
                             style: TextStyle(
+                                fontSize: 11,
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
                         DataCell(
                           Text((restufl / 0.45).toStringAsFixed(2),
                               style: const TextStyle(
+                                  fontSize: 11,
                                   fontStyle: FontStyle.italic,
                                   color: Color(0XFF035B6F))),
                         ),
                         DataCell(Text((restpdie / 48).toStringAsFixed(2),
                             style: const TextStyle(
+                                fontSize: 11,
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
                         DataCell(Text(
                             (restpdin / 48).toStringAsFixed(2).toString(),
                             style: const TextStyle(
                                 fontStyle: FontStyle.italic,
+                                fontSize: 11,
                                 color: Color(0XFF035B6F)))),
                         const DataCell(Text('إنتاج الحليب المقدر',
                             style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 11,
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
                       ])
@@ -427,7 +445,7 @@ class _ApportsARState extends State<ApportsAR> {
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
                         const SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         MaterialButton(
                             shape: RoundedRectangleBorder(
@@ -451,7 +469,7 @@ class _ApportsARState extends State<ApportsAR> {
                       ],
                     )),
                 const SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -521,9 +539,10 @@ class _ApportsARState extends State<ApportsAR> {
     );
   }
 
-  void _showAlertAcidose(BuildContext context) {
+  void _showAlertAcidose(BuildContext context) async {
     // Calculez la condition avant de passer à la construction du widget
     String message;
+
     if (_apportndf >= (35 / 100 * _apportms * 1000)) {
       message = "عدم وجود احتمالية الإصابة بالبشمة ";
     } else {
@@ -550,7 +569,7 @@ class _ApportsARState extends State<ApportsAR> {
                 Navigator.of(context).pop(); // Ferme la boîte de dialogue
               },
               child: const Text(
-                'OK',
+                'موافق',
                 style: TextStyle(
                   color: Color(0xff708907),
                 ),

@@ -9,7 +9,7 @@ class SQLHelper {
   Future<Database> db() async {
     return await openDatabase(
         // join method is used to join the path of the database with the path of the app's document directory.
-        join(await getDatabasesPath(), 'BagratyBd.db'),
+        join(await getDatabasesPath(), 'BagratyBdBd.db'),
         // The version of the database. This is used to manage database schema changes.
         version: 1,
         // onCreate is a callback function that is called ONLY when the database is created for the first time.
@@ -161,22 +161,10 @@ quantite INTEGER
         "quantite": 0
       },
       {
-        "id_n": 10,
-        "motif_n": "fourrage",
-        "nom_n": "Foin de vesce-avoine",
-        'nom_ar': 'قرط قصيبة ',
-        "ms_n": 81,
-        "ufl_n": 0.67,
-        "pdin_n": 67,
-        "pdie_n": 74,
-        "ndf_n": 575,
-        "quantite": 0
-      },
-      {
         "id_n": 11,
         "motif_n": "fourrage",
         "nom_n": "Foin de luzerne",
-        'nom_ar': 'قرط قصيبة ',
+        'nom_ar': 'قرط الفصة ',
         "ms_n": 87.5,
         "ufl_n": 0.67,
         "pdin_n": 130,
@@ -246,8 +234,8 @@ quantite INTEGER
       },
       {
         "id_n": 18,
-        "motif_n": "concentre",
-        "nom_ar": 'تركيز N7 ACN',
+        "motif_n": "concentré",
+        "nom_ar": 'علف مركب رقم 7',
         "nom_n": "Concentré N7 ACN",
         "ms_n": 88,
         "ufl_n": 0.75,
@@ -579,7 +567,10 @@ quantite INTEGER
     uflList = await SQLHelper().calculateNDFTotal();
 
     for (var nourriture in ndfList) {
-      _totalndf = (_totalndf + nourriture['ndf_n']);
+      _totalndf = (_totalndf +
+          nourriture['ndf_n'] *
+              nourriture['quantite'] *
+              (nourriture['ms_n'] / 100));
     }
 
     return _totalndf;
