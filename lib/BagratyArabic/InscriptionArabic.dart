@@ -230,13 +230,7 @@ class InscriptionExpARState extends State<InscriptionExpAR> {
                   "لدي حساب ",
                   style: TextStyle(color: Colors.white),
                 )),
-            SizedBox(
-              height: 80,
-            ),
-            Text('صاحبة التطبيق: أسماء سالمي',
-                style: TextStyle(
-                  color: Colors.white,
-                ))
+      
           ]),
         )));
   }

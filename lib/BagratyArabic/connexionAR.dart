@@ -155,20 +155,6 @@ class ConnexionARState extends State<ConnexionAR> {
                           ),
                           selectionColor: Color(0XFF035B6F),
                         )),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: 100,
-                        ),
-                        // ignore: unnecessary_const
-
-                        Text('صاحبة التطبيق: أسماء سالمي',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ))
-                      ],
-                    )
                   ],
                 )
               ],

@@ -224,15 +224,6 @@ class InscriptionExpState extends State<InscriptionExp> {
                           "J'ai un compte",
                           style: TextStyle(color: Colors.white),
                         )),
-                    SizedBox(
-                      height: 80,
-                    ),
-                    // ignore: unnecessary_const
-                 
-                    Text('Propriétaire: Asma Selmi',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ))
                   ]),
                 ))));
   }

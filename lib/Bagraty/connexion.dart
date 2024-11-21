@@ -149,20 +149,7 @@ class ConnexionState extends State<Connexion> {
                               ),
                               selectionColor: Color(0XFF035B6F),
                             )),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: 80,
-                            ),
-                            // ignore: unnecessary_const
-
-                            Text('Propriétaire: Asma Selmi',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ))
-                          ],
-                        )
+                       
                       ],
                     ),
                   ]))),
