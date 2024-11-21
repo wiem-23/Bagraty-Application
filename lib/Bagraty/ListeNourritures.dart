@@ -512,7 +512,7 @@ class _ListenourrituresState extends State<Listenourritures> {
 
   // Update an existing journal
   Future<void> _updateItem(int id) async {
-    await SQLHelper.updateItem(id, int.parse(_quantiteController.text));
+    await SQLHelper.updateItem(id, double.parse(_quantiteController.text));
 
     _refreshNourritures();
   }
@@ -562,15 +562,17 @@ class _ListenourrituresState extends State<Listenourritures> {
                       child: CircularProgressIndicator(),
                     )
                   : ListView.builder(
-                      padding: const EdgeInsets.all(0),
+                      //   padding: const EdgeInsets.all(0),
                       scrollDirection: Axis.vertical,
                       itemCount: _nourritures.length,
                       itemBuilder: (context, index) => Card(
                         color: Colors.white,
-                        margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: ListTile(
+                            contentPadding:
+                                EdgeInsets.only(right: -10, left: 5),
                             leading: SizedBox(
-                              width: 20,
+                              width: 30,
                               child: Text(
                                 _nourritures[index]['quantite'].toString(),
                                 style: const TextStyle(
@@ -580,19 +582,21 @@ class _ListenourrituresState extends State<Listenourritures> {
                               ),
                             ),
                             isThreeLine: true,
-                            minLeadingWidth: 4.0,
+                            //  minLeadingWidth: 4.0,
                             minTileHeight: 2,
                             minVerticalPadding: 3,
                             horizontalTitleGap: 0,
-                            title: Text(
+                            title: SizedBox(
+                                child: Text(
                               maxLines: 1,
                               textAlign: TextAlign.start,
                               _nourritures[index]['nom_n'].toString(),
-                              style: const TextStyle(
+                              style: TextStyle(
+                                  letterSpacing: 0.001,
                                   color: Color(0XFF035B6F),
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 12),
-                            ),
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 11),
+                            )),
                             subtitle:
                                 Text(_nourritures[index]['motif_n'].toString(),
                                     style: const TextStyle(
@@ -601,13 +605,15 @@ class _ListenourrituresState extends State<Listenourritures> {
                                       fontWeight: FontWeight.w600,
                                     )),
                             trailing: SizedBox(
-                              width: 160,
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   IconButton(
-                                      padding: const EdgeInsets.all(0),
                                       color: const Color(0XFF035B6F),
-                                      iconSize: 16,
+                                      iconSize: 14,
                                       icon: const Icon(Icons.refresh_rounded),
                                       onPressed: () => {
                                             _reloadQuantity(
@@ -630,7 +636,6 @@ class _ListenourrituresState extends State<Listenourritures> {
                                         _nourritures[index]['id_n']),
                                   ),
                                   IconButton(
-                                    padding: const EdgeInsets.all(2),
                                     color: const Color(0XFF035B6F),
                                     iconSize: 16,
                                     icon: const Icon(Icons.delete),

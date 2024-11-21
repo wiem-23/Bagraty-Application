@@ -44,7 +44,7 @@ class FirstPageState extends State<FirstPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.0),
           ),
-          margin: const EdgeInsets.all(10),
+          margin: const EdgeInsets.all(5),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Column(
@@ -68,16 +68,18 @@ class FirstPageState extends State<FirstPage> {
                   margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
                   child: DropdownButtonFormField<String>(
                     decoration: const InputDecoration(
+                        prefixIconColor: Color(0XFF035B6F),
+                        iconColor: Color(0XFF035B6F),
                         enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.white), // Couleur de la bordure
-                    )),
+                          borderSide: BorderSide(
+                              color: Colors.white), // Couleur de la bordure
+                        )),
                     isExpanded: true,
                     elevation: 20,
                     hint: const Text('Langue',
                         style: TextStyle(
                             color: Color(0XFF035B6F),
-                            fontWeight: FontWeight.w200)),
+                            fontWeight: FontWeight.bold)),
                     value: _selectedOption,
                     onChanged: (String? newValue) {
                       print(arabic);
@@ -122,12 +124,25 @@ class FirstPageState extends State<FirstPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.0),
           ),
-          margin: const EdgeInsets.all(20),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                const Divider(
+                  height: 18.0,
+                  color: Color.fromRGBO(0, 0, 0, 0),
+                ),
+                arabic == true
+                    ? Text('صاحبة التطبيق: أسماء سالمي',
+                        style: TextStyle(
+                            color: Color(0XFF035B6F),
+                            fontWeight: FontWeight.bold))
+                    : Text('Propriétaire: Asma Selmi',
+                        style: TextStyle(
+                            color: Color(0XFF035B6F),
+                            fontWeight: FontWeight.bold)),
+
                 const Divider(
                   height: 30.0,
                   color: Color.fromRGBO(0, 0, 0, 0),
@@ -139,9 +154,10 @@ class FirstPageState extends State<FirstPage> {
                   width: 222,
                 ),
                 const Divider(
-                  height: 40.0,
+                  height: 20.0,
                   color: Color.fromRGBO(0, 0, 0, 0),
                 ),
+
                 MaterialButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
@@ -178,7 +194,7 @@ class FirstPageState extends State<FirstPage> {
                             ),
                           )),
                 const Divider(
-                  height: 40.0,
+                  height: 20.0,
                   color: Color.fromRGBO(0, 0, 0, 0),
                 )
               ],

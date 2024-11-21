@@ -228,15 +228,8 @@ class InscriptionExpState extends State<InscriptionExp> {
                       height: 80,
                     ),
                     // ignore: unnecessary_const
-                    Image.asset(
-                      'assets/images/inat.png',
-                      height: 60,
-                      width: 222,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text('Créée pa ASMA Selmi',
+                 
+                    Text('Propriétaire: Asma Selmi',
                         style: TextStyle(
                           color: Colors.white,
                         ))

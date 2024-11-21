@@ -9,7 +9,7 @@ class SQLHelper {
   Future<Database> db() async {
     return await openDatabase(
         // join method is used to join the path of the database with the path of the app's document directory.
-        join(await getDatabasesPath(), 'BagratyBdBd.db'),
+        join(await getDatabasesPath(), 'BagratyBd_Bd.db'),
         // The version of the database. This is used to manage database schema changes.
         version: 1,
         // onCreate is a callback function that is called ONLY when the database is created for the first time.
@@ -60,7 +60,7 @@ ufl_n REAL NOT NULL,
 pdin_n INTEGER NOT NULL , 
 pdie_n INTEGER NOT NULL , 
 ndf_n INTEGER NOT NULL,
-quantite INTEGER 
+quantite REAL  
 )
       """);
     List<Map<String, dynamic>> defaultData = [
@@ -188,7 +188,7 @@ quantite INTEGER
         "id_n": 14,
         "nom_ar": ' قرط المنجور ',
         "motif_n": "fourrage",
-        "nom_n": "Foin de raye grass",
+        "nom_n": "Foin de rye grass",
         "ms_n": 68.8,
         "ufl_n": 0.58,
         "pdin_n": 48,
@@ -386,7 +386,7 @@ quantite INTEGER
     required int pdin_n,
     required int pdie_n,
     required int ndf_n,
-    required int quantite,
+    required double quantite,
   }) async {
     final db = await SQLHelper().db();
 
@@ -422,7 +422,7 @@ quantite INTEGER
   // The app doesn't use this method but I put here in case you want to see it
 
   // Update an item by id
-  static Future<int> updateItem(int id_n, int quantite) async {
+  static Future<int> updateItem(int id_n, double quantite) async {
     final db = await SQLHelper().db();
 
     final data = {
@@ -435,7 +435,7 @@ quantite INTEGER
     return result;
   }
 
-  static Future<int> reloadItem(int id_n, int quantite) async {
+  static Future<int> reloadItem(int id_n, double quantite) async {
     final db = await SQLHelper().db();
 
     final data = {
@@ -587,7 +587,7 @@ quantite INTEGER
   Future<List> calculateTotalSommeTow() async {
     final db = await SQLHelper().db();
     var result = await db.rawQuery(
-        "SELECT * FROM Nourriture WHERE quantite !=0 AND motif_n='concentre'");
+        "SELECT * FROM Nourriture WHERE quantite !=0 AND motif_n='concentré'");
 
     return result.toList();
   }
@@ -975,6 +975,8 @@ class MyTableWidget extends StatelessWidget {
     super.key,
     required this.id_n,
   });
+  double qte = 0;
+  bool qteIsNull = false;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -987,6 +989,7 @@ class MyTableWidget extends StatelessWidget {
         } else {
           List<Map<String, dynamic>> data =
               snapshot.data as List<Map<String, dynamic>>;
+
           return DataTable(
             columnSpacing: 30,
             horizontalMargin: 20.0,

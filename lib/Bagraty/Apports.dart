@@ -47,6 +47,25 @@ class _ApportsState extends State<Apports> {
     _getRestePDIE();
     _getRestePDIN();
     _calclNDFTotal();
+    _calculateTotalSommeTow();
+  }
+
+  Future<double> _calculateTotalSommeTow() async {
+    stList = await SQLHelper().calculateTotalSommeTow();
+    double apportst = 0.0;
+    double totalst = 0.0;
+
+    for (var nourriture in stList) {
+      totalst += nourriture['ms_n'];
+
+      apportst = (totalst / 100) * (nourriture['quantite']);
+    }
+
+    setState(() {
+      _apportst = apportst;
+    });
+    _apportst = apportst;
+    return _apportst;
   }
 
   Future<double> _calclNDFTotal() async {
@@ -103,21 +122,6 @@ class _ApportsState extends State<Apports> {
 
     setState(() {
       _apportpdie = apportpdie;
-    });
-  }
-
-  Future<void> _calculateTotalSommeTow() async {
-    stList = await SQLHelper().calculateTotalSommeTow();
-    double apportst = 0.0;
-    double totalst = 0.0;
-    for (var nourriture in stList) {
-      totalst += nourriture['ms_n'];
-
-      apportst = (totalst / 100) * (nourriture['quantite']);
-    }
-
-    setState(() {
-      _apportst = apportst;
     });
   }
 
@@ -206,7 +210,7 @@ class _ApportsState extends State<Apports> {
                 child: Column(
               children: [
                 const SizedBox(
-                  height: 30,
+                  height: 15,
                 ),
                 Container(
                   child: const Text("Les apports ",
@@ -216,7 +220,7 @@ class _ApportsState extends State<Apports> {
                           fontWeight: FontWeight.bold)),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 15,
                 ),
                 DataTable(
                     columnSpacing: 20,
@@ -321,7 +325,7 @@ class _ApportsState extends State<Apports> {
                                 color: Color(0XFF035B6F)))),
                       ]),
                       DataRow(cells: [
-                        const DataCell(Text('Qté Lait',
+                        const DataCell(Text('Lait',
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
@@ -387,39 +391,42 @@ class _ApportsState extends State<Apports> {
                                   color: const Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)), */
+                        const SizedBox(
+                          height: 10,
+                        ),
                         if (_apportst > (_apportms / 2))
-                          const Text(
+                          Text(
                               "« Alerte : Attention vous comptez distribuer plus de 50 % de concentré dans votre ration .Diminuez la quantité de concentré distribuée. »",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
-                        if ((restufl / 0.45) == (restpdie / 48))
+                        if ((restufl / 0.45) == (restpdin / 48))
                           const Text(
                               "« Equilibrée : Pas besoin de correcteur. »",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
-                        if ((restufl / 0.45) > (restpdie / 48))
+                        if ((restufl / 0.45) > (restpdin / 48))
                           Text(
-                              "« Déséquilibrée : Il faut combler un déficit de ${((restufl / 0.45) - (restpdie / 48)).toStringAsFixed(2)} Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur azoté . »",
+                              "« Déséquilibrée : Il faut combler un déficit de ${((restufl / 0.45) - (restpdin / 48)).toStringAsFixed(2)} Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur azoté . »",
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
-                        if ((restufl / 0.45) < (restpdie / 48))
+                        if ((restufl / 0.45) < (restpdin / 48))
                           Text(
-                              "« Déséquilibrée : Il faut combler un déficit de ${((restpdie / 48) - (restufl / 0.45)).toStringAsFixed(2)}  Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur énergitique . »",
+                              "« Déséquilibrée : Il faut combler un déficit de ${((restpdin / 48) - (restufl / 0.45)).toStringAsFixed(2)}  Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur énergitique . »",
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
                         MaterialButton(
                             shape: RoundedRectangleBorder(
@@ -462,7 +469,7 @@ class _ApportsState extends State<Apports> {
                               builder: (context) => FirstPage()));
                         },
                         child: const Text(
-                          "Deconnexion",
+                          "Déconnexion",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15.0,

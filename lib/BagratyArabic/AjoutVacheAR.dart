@@ -243,8 +243,9 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       color: Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.normal),
-                  labelText: 'Age 1er velage',
+                  labelText: 'العمر عند الولادة الأولى',
                   labelStyle: TextStyle(
+                    fontSize: 13,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(

@@ -45,7 +45,7 @@ class ConseilsARState extends State<ConseilsAR> {
         )),
         child: const Center(
             child: Text(
-          "Section en cours de construction",
+          "هذا القسم قيد الإنشاء",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 20.0,

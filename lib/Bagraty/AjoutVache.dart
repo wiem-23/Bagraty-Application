@@ -67,7 +67,8 @@ class AjoutvacheState extends State<Ajoutvache> {
     print(_selectedOption);
     print(tarie);
   } */
-  DateTime? pickedDate;
+
+  DateTime? pickedDate = DateTime.now();
   Future<void> _selectDate(BuildContext context) async {
     // Afficher le DatePicker
     pickedDate = await showDatePicker(
@@ -410,6 +411,9 @@ class AjoutvacheState extends State<Ajoutvache> {
                   readOnly: true, // Rendre le champ en lecture seule
                   decoration: InputDecoration(
                       labelText: 'Date',
+                      hintText: DateFormat('yyyy-MM-dd')
+                          .format(pickedDate!)
+                          .toString(),
                       labelStyle: const TextStyle(
                         color: Colors.white,
                       ),
