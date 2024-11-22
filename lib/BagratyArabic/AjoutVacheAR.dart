@@ -477,7 +477,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
 
                         double ci =
                             await SQLHelper().calcCITotal(id: id_v.text);
-                        print("ci$ci");
+                   
                         var thi = await SQLHelper().calcTHITotal(id: id_v.text);
 
                         await SQLHelper.updateVache(
@@ -511,7 +511,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       onPressed: () async {
                         _showCI(id: id_v.text);
                         var ci = await SQLHelper().calcCITotal(id: id_v.text);
-                        print("ci$ci");
+                     
                         var thi = await SQLHelper().calcTHITotal(id: id_v.text);
 
                         await SQLHelper.updateVache(
@@ -536,7 +536,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
 
   void _showCI({required String id}) async {
     var ci = await SQLHelper().calcCITotal(id: id_v.text);
-    print("ci$ci");
+ 
     var thi = await SQLHelper().calcTHITotal(id: id_v.text);
     await SQLHelper.updateVache(id_v: id_v.text, ci_v: ci, thi_v: thi);
     var res = await SQLHelper.getVache(id: id_v.text);

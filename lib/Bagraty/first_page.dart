@@ -82,7 +82,7 @@ class FirstPageState extends State<FirstPage> {
                             fontWeight: FontWeight.bold)),
                     value: _selectedOption,
                     onChanged: (String? newValue) {
-                      print(arabic);
+                    
                       _selectedOption = newValue;
                       if (newValue == 'العربية') {
                         arabic = true;
@@ -95,7 +95,7 @@ class FirstPageState extends State<FirstPage> {
                           arabic = false;
                         });
                       }
-                      print(arabic);
+                    
                     },
                     items:
                         _langue.map<DropdownMenuItem<String>>((String value) {

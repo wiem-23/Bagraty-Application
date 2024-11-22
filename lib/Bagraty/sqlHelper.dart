@@ -814,7 +814,7 @@ quantite REAL
     itemBL = await SQLHelper.calculateUFLBL(id: id);
 
     for (var vache in itemBL) {
-      _BL = vache['prod_lait'] * 0.45;
+      _BL = vache['prod_lait'] * 0.44;
     }
 
     return _BL;
@@ -852,7 +852,7 @@ quantite REAL
     for (var vache in itemBEPDI) {
       _BEPDI = 95 + (0.6 * vache['poid']);
     }
-    print(_BEPDI);
+   
     return _BEPDI;
   }
 
@@ -878,7 +878,7 @@ quantite REAL
       } else
         _BCPDI = 0;
     }
-    print(_BCPDI);
+
     return _BCPDI;
   }
 
@@ -906,7 +906,7 @@ quantite REAL
       } else
         _BGPDI = 0;
     }
-    print(_BGPDI);
+
     return _BGPDI;
   }
 
@@ -925,9 +925,9 @@ quantite REAL
     itemBLPDI = await SQLHelper.calculatePDIBL(id: id);
 
     for (var vache in itemBLPDI) {
-      _BLPDI = vache['prod_lait'] * 48;
+      _BLPDI = vache['prod_lait'] * 50;
     }
-    print(_BLPDI);
+
     return _BLPDI;
   }
 
@@ -967,7 +967,7 @@ quantite REAL
   }
 }
 
-// ignore: non_constant_identifier_names
+
 class MyTableWidget extends StatelessWidget {
   int? id_n;
 

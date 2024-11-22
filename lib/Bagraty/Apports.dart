@@ -72,7 +72,7 @@ class _ApportsState extends State<Apports> {
     ndfList = await SQLHelper().calculateNDFTotal();
     double apportndf = 0.0;
     double totalndf = 0.0;
-    print("ndfList$ndfList");
+
     for (var nourriture in ndfList) {
       totalndf += (nourriture['quantite'] * (nourriture['ms_n'] / 100)) *
           nourriture['ndf_n'];
@@ -134,7 +134,7 @@ class _ApportsState extends State<Apports> {
 
       apportms += (nourriture['ms_n'] / 100) * (nourriture['quantite']);
     }
-    print("appotsms$apportms");
+   
     setState(() {
       _apportms = apportms;
     });
@@ -334,17 +334,17 @@ class _ApportsState extends State<Apports> {
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
                         DataCell(
-                          Text((restufl / 0.45).toStringAsFixed(2),
+                          Text((restufl / 0.44).toStringAsFixed(2),
                               style: const TextStyle(
                                   fontStyle: FontStyle.italic,
                                   color: Color(0XFF035B6F))),
                         ),
-                        DataCell(Text((restpdie / 48).toStringAsFixed(2),
+                        DataCell(Text((restpdie / 50).toStringAsFixed(2),
                             style: const TextStyle(
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
                         DataCell(Text(
-                            (restpdin / 48).toStringAsFixed(2).toString(),
+                            (restpdin / 50).toStringAsFixed(2).toString(),
                             style: const TextStyle(
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
@@ -404,23 +404,23 @@ class _ApportsState extends State<Apports> {
                         const SizedBox(
                           height: 10,
                         ),
-                        if ((restufl / 0.45) == (restpdin / 48))
+                        if ((restufl / 0.44) == (restpdin / 50))
                           const Text(
                               "« Equilibrée : Pas besoin de correcteur. »",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
-                        if ((restufl / 0.45) > (restpdin / 48))
+                        if ((restufl / 0.44) > (restpdin / 50))
                           Text(
-                              "« Déséquilibrée : Il faut combler un déficit de ${((restufl / 0.45) - (restpdin / 48)).toStringAsFixed(2)} Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur azoté . »",
+                              "« Déséquilibrée : Il faut combler un déficit de ${((restufl / 0.44) - (restpdin / 50)).toStringAsFixed(2)} Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur azoté . »",
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
-                        if ((restufl / 0.45) < (restpdin / 48))
+                        if ((restufl / 0.44) < (restpdin / 50))
                           Text(
-                              "« Déséquilibrée : Il faut combler un déficit de ${((restpdin / 48) - (restufl / 0.45)).toStringAsFixed(2)}  Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur énergitique . »",
+                              "« Déséquilibrée : Il faut combler un déficit de ${((restpdin / 50) - (restufl / 0.44)).toStringAsFixed(2)}  Kg entre les UFL et les PDIN ==> Sélectionnez un correcteur énergitique . »",
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,

@@ -55,7 +55,7 @@ class _ApportsARState extends State<ApportsAR> {
     ndfList = await SQLHelper().calculateNDFTotal();
     double apportndf = 0.0;
     double totalndf = 0.0;
-    print("ndfList$ndfList");
+ 
     for (var nourriture in ndfList) {
       totalndf += (nourriture['quantite'] * (nourriture['ms_n'] / 100)) *
           nourriture['ndf_n'];
@@ -341,20 +341,20 @@ class _ApportsARState extends State<ApportsAR> {
                                 fontSize: 11,
                                 color: Color(0XFF035B6F)))),
                         DataCell(
-                          Text((restufl / 0.45).toStringAsFixed(2),
+                          Text((restufl / 0.44).toStringAsFixed(2),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 11,
                                   color: Color(0XFF035B6F))),
                         ),
-                        DataCell(Text((restpdie / 48).toStringAsFixed(2),
+                        DataCell(Text((restpdie / 50).toStringAsFixed(2),
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 11,
                                 fontStyle: FontStyle.italic,
                                 color: Color(0XFF035B6F)))),
                         DataCell(Text(
-                            (restpdin / 48).toStringAsFixed(2).toString(),
+                            (restpdin / 50).toStringAsFixed(2).toString(),
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 11,
@@ -423,24 +423,24 @@ class _ApportsARState extends State<ApportsAR> {
                         const SizedBox(
                           height: 15,
                         ),
-                        if ((restufl / 0.45) == (restpdin / 48))
+                        if ((restufl / 0.44) == (restpdin / 50))
                           const Text("« عليقة متوازنة»",
                               textDirection: TextDirection.rtl,
                               style: TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
-                        if ((restufl / 0.45) > (restpdin / 48))
+                        if ((restufl / 0.44) > (restpdin / 50))
                           Text(
-                              "« عليقة غير متوازنة: يجب تعويض عجز  ${((restufl / 0.45) - (restpdin / 48)).toStringAsFixed(2)} كغ اختر علف مركب غني بالبروتينات »",
+                              "« عليقة غير متوازنة: يجب تعويض عجز  ${((restufl / 0.44) - (restpdin / 50)).toStringAsFixed(2)} كغ اختر علف مركب غني بالبروتينات »",
                               textDirection: TextDirection.rtl,
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
-                        if ((restufl / 0.45) < (restpdin / 48))
+                        if ((restufl / 0.44) < (restpdin / 50))
                           Text(
-                              "« عليقة غير متوازنة: يجب تعويض عجز  ${((restpdin / 48) - (restufl / 0.45)).toStringAsFixed(2)}  كغ اختر علف مركب غني بالطاقة. »",
+                              "« عليقة غير متوازنة: يجب تعويض عجز  ${((restpdin / 50) - (restufl / 0.44)).toStringAsFixed(2)}  كغ اختر علف مركب غني بالطاقة. »",
                               textDirection: TextDirection.rtl,
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 128, 10, 1),

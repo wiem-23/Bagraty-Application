@@ -205,7 +205,7 @@ class _ListenourrituresARState extends State<ListenourrituresAR> {
     setState(() {
       _nourritures = data;
       _isLoading = false;
-      print(_nourritures);
+    
     });
   }
 

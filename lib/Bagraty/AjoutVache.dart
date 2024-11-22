@@ -60,13 +60,6 @@ class AjoutvacheState extends State<Ajoutvache> {
     id_m.text = "TN";
   }
 
-/*   void _checkTarie() {
-    if (_selectedOption == "Tarie") {
-      prod_lait.text = '7';
-    }
-    print(_selectedOption);
-    print(tarie);
-  } */
 
   DateTime? pickedDate = DateTime.now();
   Future<void> _selectDate(BuildContext context) async {

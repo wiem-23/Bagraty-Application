@@ -204,7 +204,7 @@ class _ListenourrituresState extends State<Listenourritures> {
     setState(() {
       _nourritures = data;
       _isLoading = false;
-      print(_nourritures);
+ 
     });
   }
 
