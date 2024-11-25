@@ -149,7 +149,9 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       fontWeight: FontWeight.normal),
                   labelText: 'معرف البقرة ',
                   labelStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 14,
+                  ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
                         BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
@@ -169,7 +171,9 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       fontWeight: FontWeight.normal),
                   labelText: 'معرف الاب',
                   labelStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 14,
+                  ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
                         BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
@@ -189,7 +193,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       fontWeight: FontWeight.normal),
                   labelText: 'معرف الام',
                   labelStyle: TextStyle(
-                    fontSize: 13,
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -213,7 +217,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 decoration: InputDecoration(
                   hintStyle: TextStyle(
                       color: Colors.white,
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.normal),
                   labelText: 'الوزن الحي',
                   labelStyle: TextStyle(
@@ -228,8 +232,9 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
               ),
               TextFormField(
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(
-                      r'^(100|[1-9]([0-9])?)$')), // Nombre entre 1 et 100
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'^(100|[0-9]|[1-9][0-9])$'),
+                  ) // Nombre entre 1 et 100
                 ],
                 keyboardType: TextInputType.number,
                 cursorColor: Color.fromARGB(255, 255, 255, 255),
@@ -245,7 +250,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       fontWeight: FontWeight.normal),
                   labelText: 'العمر عند الولادة الأولى',
                   labelStyle: TextStyle(
-                    fontSize: 13,
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -268,9 +273,10 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 elevation: 100,
                 hint: Text('الولادات',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontWeight: FontWeight.normal,
-                        fontSize: 13)),
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                    )),
                 value: _selectedOption,
                 onChanged: (String? newValue) {
                   setState(() {
@@ -289,7 +295,10 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                     value: value,
                     child: Text(
                       value,
-                      style: TextStyle(color: Color(0XFF035B6F), fontSize: 13),
+                      style: TextStyle(
+                        color: Color(0XFF035B6F),
+                        fontSize: 14,
+                      ),
                     ),
                   );
                 }).toList(),
@@ -301,7 +310,8 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                 enabled: !tarie,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(
-                      RegExp(r'^(40|[1-4]([0-9])?)$')), // Nombre entre 1 et 40
+                    RegExp(r'^([0-9]|[1-3][0-9]|40)$'),
+                  ) // Nombre entre 1 et 40
                 ],
                 keyboardType: TextInputType.number,
                 cursorColor: Color.fromARGB(255, 255, 255, 255),
@@ -318,7 +328,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       fontWeight: FontWeight.normal),
                   labelText: 'إنتاج الحليب يوميا',
                   labelStyle: TextStyle(
-                    fontSize: 13,
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -346,7 +356,9 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       fontWeight: FontWeight.normal),
                   labelText: 'شهر الحمل',
                   labelStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 13),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 14,
+                  ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
                         BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
@@ -369,7 +381,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                   labelText: 'الحرارة ',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 13,
+                    fontSize: 14,
                   ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
@@ -395,7 +407,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                   labelText: 'الرطوبة ',
                   labelStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 13,
+                    fontSize: 14,
                   ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide:
@@ -408,7 +420,10 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                   readOnly: true, // Rendre le champ en lecture seule
                   decoration: InputDecoration(
                       labelText: 'التاريخ',
-                      labelStyle: TextStyle(color: Colors.white, fontSize: 13),
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
                       hintText: DateFormat('yyyy-MM-dd')
                           .format(pickedDate!)
                           .toString(),
@@ -443,6 +458,10 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                             id_m.text == 0 ||
                             id_p.text == 0) {
                           _showAlertDialog(context);
+                        } else if (prod_lait.text.isEmpty) {
+                          prod_lait.text = "0";
+                        } else if (age.text.isEmpty) {
+                          age.text = "0";
                         } else if (_selectedOption == "غارزة") {
                           await SQLHelper().insertVacheData(
                               parite: _selectedOption,
@@ -477,7 +496,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
 
                         double ci =
                             await SQLHelper().calcCITotal(id: id_v.text);
-                   
+
                         var thi = await SQLHelper().calcTHITotal(id: id_v.text);
 
                         await SQLHelper.updateVache(
@@ -511,7 +530,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
                       onPressed: () async {
                         _showCI(id: id_v.text);
                         var ci = await SQLHelper().calcCITotal(id: id_v.text);
-                     
+
                         var thi = await SQLHelper().calcTHITotal(id: id_v.text);
 
                         await SQLHelper.updateVache(
@@ -536,7 +555,7 @@ class AjoutVacheARState extends State<AjoutVacheAR> {
 
   void _showCI({required String id}) async {
     var ci = await SQLHelper().calcCITotal(id: id_v.text);
- 
+
     var thi = await SQLHelper().calcTHITotal(id: id_v.text);
     await SQLHelper.updateVache(id_v: id_v.text, ci_v: ci, thi_v: thi);
     var res = await SQLHelper.getVache(id: id_v.text);

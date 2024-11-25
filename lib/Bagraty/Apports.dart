@@ -68,7 +68,7 @@ class _ApportsState extends State<Apports> {
     return _apportst;
   }
 
-  Future<double> _calclNDFTotal() async {
+  Future<double> _calclNDFTotal() async {   
     ndfList = await SQLHelper().calculateNDFTotal();
     double apportndf = 0.0;
     double totalndf = 0.0;

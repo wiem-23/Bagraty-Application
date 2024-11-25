@@ -60,7 +60,6 @@ class AjoutvacheState extends State<Ajoutvache> {
     id_m.text = "TN";
   }
 
-
   DateTime? pickedDate = DateTime.now();
   Future<void> _selectDate(BuildContext context) async {
     // Afficher le DatePicker
@@ -141,7 +140,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                 cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 controller: id_v,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: 13,
+                ),
 
                 decoration: const InputDecoration(
                   hintStyle: TextStyle(
@@ -150,6 +152,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                       fontWeight: FontWeight.normal),
                   labelText: 'ID vache',
                   labelStyle: TextStyle(
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -162,7 +165,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                 cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 controller: id_p,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: 13,
+                ),
 
                 decoration: const InputDecoration(
                   hintStyle: TextStyle(
@@ -171,6 +177,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                       fontWeight: FontWeight.normal),
                   labelText: 'ID père',
                   labelStyle: TextStyle(
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -183,7 +190,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                 cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 controller: id_m,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: 13,
+                ),
 
                 decoration: const InputDecoration(
                   hintStyle: TextStyle(
@@ -192,6 +202,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                       fontWeight: FontWeight.normal),
                   labelText: 'ID mère',
                   labelStyle: TextStyle(
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -210,7 +221,10 @@ class AjoutvacheState extends State<Ajoutvache> {
                 cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 controller: poids_v,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: 13,
+                ),
 
                 decoration: const InputDecoration(
                   hintStyle: TextStyle(
@@ -219,6 +233,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                       fontWeight: FontWeight.normal),
                   labelText: 'Poids vif',
                   labelStyle: TextStyle(
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -229,14 +244,18 @@ class AjoutvacheState extends State<Ajoutvache> {
               ),
               TextFormField(
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(
-                      r'^(100|[1-9]([0-9])?)$')), // Nombre entre 1 et 100
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'^(100|[0-9]|[1-9][0-9])$'),
+                  ) // Nombre entre 0 et 100
                 ],
                 keyboardType: TextInputType.number,
                 cursorColor: const Color.fromARGB(255, 255, 255, 255),
                 controller: age,
                 // ignore: prefer_const_constructors
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: 13,
+                ),
 
                 decoration: const InputDecoration(
                   hintStyle: TextStyle(
@@ -245,6 +264,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                       fontWeight: FontWeight.normal),
                   labelText: 'Age 1er velage',
                   labelStyle: TextStyle(
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -265,6 +285,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                 elevation: 100,
                 hint: const Text('Parité',
                     style: TextStyle(
+                        fontSize: 14,
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontWeight: FontWeight.normal)),
                 value: _selectedOption,
@@ -285,7 +306,8 @@ class AjoutvacheState extends State<Ajoutvache> {
                     value: value,
                     child: Text(
                       value,
-                      style: const TextStyle(color: Color(0XFF035B6F)),
+                      style: const TextStyle(
+                          fontSize: 14, color: Color(0XFF035B6F)),
                     ),
                   );
                 }).toList(),
@@ -297,7 +319,8 @@ class AjoutvacheState extends State<Ajoutvache> {
                 enabled: !tarie,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(
-                      RegExp(r'^(40|[1-4]([0-9])?)$')), // Nombre entre 1 et 40
+                    RegExp(r'^([0-9]|[1-3][0-9]|40)$'),
+                  ) // Nombre entre 1 et 40
                 ],
                 keyboardType: TextInputType.number,
                 cursorColor: const Color.fromARGB(255, 255, 255, 255),
@@ -314,6 +337,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                       fontWeight: FontWeight.normal),
                   labelText: 'Production laitière journalière',
                   labelStyle: TextStyle(
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -341,6 +365,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                       fontWeight: FontWeight.normal),
                   labelText: 'Mois de gestation',
                   labelStyle: TextStyle(
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -364,6 +389,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                       fontWeight: FontWeight.normal),
                   labelText: 'Température ',
                   labelStyle: TextStyle(
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -391,6 +417,7 @@ class AjoutvacheState extends State<Ajoutvache> {
                   hoverColor: Colors.white,
                   labelText: 'Humidité',
                   labelStyle: TextStyle(
+                    fontSize: 14,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -400,6 +427,9 @@ class AjoutvacheState extends State<Ajoutvache> {
                 ),
               ),
               TextField(
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
                   controller: _dateController,
                   readOnly: true, // Rendre le champ en lecture seule
                   decoration: InputDecoration(
@@ -409,11 +439,12 @@ class AjoutvacheState extends State<Ajoutvache> {
                           .toString(),
                       labelStyle: const TextStyle(
                         color: Colors.white,
+                        fontSize: 14,
                       ),
                       //   hintText: pickedDate.toString(),
                       hintStyle: const TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 13,
                           fontWeight: FontWeight.normal),
                       suffixIcon: IconButton(
                           icon: const Icon(Icons.calendar_today),
@@ -443,6 +474,11 @@ class AjoutvacheState extends State<Ajoutvache> {
                             id_m.text == 0 ||
                             id_p.text == 0) {
                           _showAlertDialog(context);
+                        } else if (prod_lait.text.isEmpty) {
+                          prod_lait.text = "0";
+                        } else if (age.text.isEmpty) {
+                          age.text = "0";
+                          
                         } else if (_selectedOption == "Tarie") {
                           await SQLHelper().insertVacheData(
                               parite: _selectedOption,

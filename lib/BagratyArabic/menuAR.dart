@@ -31,6 +31,16 @@ class MenuARState extends State<MenuAR> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            textAlign: TextAlign.center,
+            'القائمة',
+            style: TextStyle(
+                fontSize: 16.0,
+                color: Color(0XFF035B6F),
+                fontWeight: FontWeight.bold),
+          ),
+        ),
         body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,

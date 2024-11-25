@@ -9,7 +9,7 @@ class SQLHelper {
   Future<Database> db() async {
     return await openDatabase(
         // join method is used to join the path of the database with the path of the app's document directory.
-        join(await getDatabasesPath(), 'BagratyBd_Bd.db'),
+        join(await getDatabasesPath(), 'Bagraty_Bd_Bd.db'),
         // The version of the database. This is used to manage database schema changes.
         version: 1,
         // onCreate is a callback function that is called ONLY when the database is created for the first time.
@@ -37,7 +37,7 @@ parite TEXT,
 id_m TEXT NOT NULL , 
 id_p  TEXT NOT NULL , 
 poid REAL NOT NULL, 
-age INTEGER NOT NULL , 
+age INTEGER , 
 prod_lait INTEGER  , 
 mois_g INTEGER NOT NULL,
 temperature INTEGER,
@@ -289,7 +289,7 @@ quantite REAL
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    return "added";
+    return "lait $prod_lait";
   }
 
   // Create new item (journal)
@@ -852,7 +852,7 @@ quantite REAL
     for (var vache in itemBEPDI) {
       _BEPDI = 95 + (0.6 * vache['poid']);
     }
-   
+
     return _BEPDI;
   }
 
@@ -966,7 +966,6 @@ quantite REAL
     return besoinsT;
   }
 }
-
 
 class MyTableWidget extends StatelessWidget {
   int? id_n;

@@ -1,7 +1,5 @@
 // ignore_for_file: unused_local_variable
 
-
-
 import 'package:bagraty_app/Bagraty/AjoutVache.dart';
 import 'package:bagraty_app/Bagraty/approvisionnement.dart';
 import 'package:bagraty_app/Bagraty/conseils.dart';
@@ -30,6 +28,16 @@ class MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            textAlign: TextAlign.center,
+            'Menu',
+            style: TextStyle(
+                fontSize: 16.0,
+                color: Color(0XFF035B6F),
+                fontWeight: FontWeight.bold),
+          ),
+        ),
         body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -65,7 +73,7 @@ class MenuState extends State<Menu> {
                         ),
                         child: MaterialButton(onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  Ajoutvache()));
+                              builder: (context) => Ajoutvache()));
                         }),
                       ),
                       const Text(
