@@ -9,7 +9,7 @@ class SQLHelper {
   Future<Database> db() async {
     return await openDatabase(
         // join method is used to join the path of the database with the path of the app's document directory.
-        join(await getDatabasesPath(), 'Bagraty_Bd_Bd.db'),
+        join(await getDatabasesPath(), 'Bagraty_Bd_Bd_Bd.db'),
         // The version of the database. This is used to manage database schema changes.
         version: 1,
         // onCreate is a callback function that is called ONLY when the database is created for the first time.
@@ -57,9 +57,9 @@ nom_n TEXT ,
 nom_ar TEXT , 
 ms_n REAL NOT NULL ,
 ufl_n REAL NOT NULL,
-pdin_n INTEGER NOT NULL , 
-pdie_n INTEGER NOT NULL , 
-ndf_n INTEGER NOT NULL,
+pdin_n REAL NOT NULL , 
+pdie_n REAL NOT NULL , 
+ndf_n REAL NOT NULL,
 quantite REAL  
 )
       """);
@@ -336,7 +336,7 @@ quantite REAL
     final data = {
       'id_n': id_n,
       'motif_n': motif_n,
-      'nom_n': nom_ar,
+      'nom_ar': nom_ar,
       'ms_n': ms_n,
       'ufl_n': ufl_n,
       'pdin_n': pdin_n,

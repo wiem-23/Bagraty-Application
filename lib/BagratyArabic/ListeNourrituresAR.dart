@@ -202,10 +202,10 @@ class _ListenourrituresARState extends State<ListenourrituresAR> {
         quantite: 0);
  */
     final data = await SQLHelper.getItems();
+
     setState(() {
       _nourritures = data;
       _isLoading = false;
-    
     });
   }
 
@@ -329,7 +329,7 @@ class _ListenourrituresARState extends State<ListenourrituresAR> {
 
       _quantiteController.text = existingNourriture['quantite'].toString();
     }
-
+    FocusNode focusNode = FocusNode();
     showModalBottomSheet(
         context: context,
         elevation: 5,
@@ -360,7 +360,9 @@ class _ListenourrituresARState extends State<ListenourrituresAR> {
                     ),
                   ),
                   TextField(
+                    focusNode: focusNode,
                     controller: _nomarController,
+                    textDirection: TextDirection.rtl,
                     decoration: const InputDecoration(
                       hintText: 'الاسم',
                       hintStyle: TextStyle(color: Color(0XFF035B6F)),
@@ -420,6 +422,14 @@ class _ListenourrituresARState extends State<ListenourrituresAR> {
                       // Save new journal
                       if (id == null) {
                         await _addItem();
+                        _msController.text = "";
+                        _ndfController.text = "";
+                        _pdieController.text = "";
+                        _pdinController.text = "";
+                        _quantiteController.text = "";
+                        _uflController.text = "";
+                        _nomarController.text = "";
+                        motifController.text = "";
                       }
                       if (id != null) {
                         await _updateItem(id);
@@ -498,9 +508,10 @@ class _ListenourrituresARState extends State<ListenourrituresAR> {
 
 // Insert a new journal to the database
   Future<void> _addItem() async {
+    print(_nomarController);
     await SQLHelper.createItemAR(
         motif_n: motifController.text,
-        nom_ar: _nomarController.text,
+        nom_ar: _nomarController.value.text,
         ms_n: double.parse(_msController.text),
         ufl_n: double.parse(_uflController.text),
         pdin_n: int.parse(_pdinController.text),
