@@ -850,7 +850,7 @@ quantite REAL
     itemBEPDI = await SQLHelper.calculatePDIBE(id: id);
 
     for (var vache in itemBEPDI) {
-      _BEPDI = 95 + (0.6 * vache['poid']);
+      _BEPDI = 95 + (0.5 * vache['poid']);
     }
 
     return _BEPDI;
