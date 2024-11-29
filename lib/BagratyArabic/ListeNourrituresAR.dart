@@ -16,7 +16,7 @@ class ListenourrituresAR extends StatefulWidget {
 class _ListenourrituresARState extends State<ListenourrituresAR> {
   // All journals
   List<Map<String, dynamic>> _nourritures = [];
-
+  bool nomNourritureIsNull = false;
   bool _isLoading = true;
   // This function is used to fetch all data from the database
   void _refreshNourritures() async {
@@ -201,6 +201,7 @@ class _ListenourrituresARState extends State<ListenourrituresAR> {
         ndf_n: 425,
         quantite: 0);
  */
+
     final data = await SQLHelper.getItems();
 
     setState(() {
@@ -508,15 +509,15 @@ class _ListenourrituresARState extends State<ListenourrituresAR> {
 
 // Insert a new journal to the database
   Future<void> _addItem() async {
-    print(_nomarController);
+    
     await SQLHelper.createItemAR(
-        motif_n: motifController.text,
+        motif_n: motifController.value.text,
         nom_ar: _nomarController.value.text,
         ms_n: double.parse(_msController.text),
         ufl_n: double.parse(_uflController.text),
-        pdin_n: int.parse(_pdinController.text),
-        pdie_n: int.parse(_pdieController.text),
-        ndf_n: int.parse(_ndfController.text),
+        pdin_n: double.parse(_pdinController.text),
+        pdie_n: double.parse(_pdieController.text),
+        ndf_n: double.parse(_ndfController.text),
         quantite: 0);
 
     _refreshNourritures();
@@ -598,16 +599,27 @@ class _ListenourrituresARState extends State<ListenourrituresAR> {
                             minTileHeight: 2,
                             minVerticalPadding: 3,
                             horizontalTitleGap: 0,
-                            title: Text(
-                              maxLines: 1,
-                              textAlign: TextAlign.start,
-                              _nourritures[index]['nom_ar'].toString(),
-                              style: const TextStyle(
-                                  letterSpacing: 0.001,
-                                  color: Color(0XFF035B6F),
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 12),
-                            ),
+                            title: _nourritures[index]['nom_ar'] == null
+                                ? Text(
+                                    _nourritures[index]['nom_n'],
+                                    maxLines: 1,
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                        letterSpacing: 0.001,
+                                        color: Color(0XFF035B6F),
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 12),
+                                  )
+                                : Text(
+                                    _nourritures[index]['nom_ar'],
+                                    maxLines: 1,
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                        letterSpacing: 0.001,
+                                        color: Color(0XFF035B6F),
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 12),
+                                  ),
                             subtitle:
                                 Text(_nourritures[index]['motif_n'].toString(),
                                     style: const TextStyle(

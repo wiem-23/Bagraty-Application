@@ -204,7 +204,6 @@ class _ListenourrituresState extends State<Listenourritures> {
     setState(() {
       _nourritures = data;
       _isLoading = false;
- 
     });
   }
 
@@ -502,9 +501,9 @@ class _ListenourrituresState extends State<Listenourritures> {
         nom_n: _nomController.text,
         ms_n: double.parse(_msController.text),
         ufl_n: double.parse(_uflController.text),
-        pdin_n: int.parse(_pdinController.text),
-        pdie_n: int.parse(_pdieController.text),
-        ndf_n: int.parse(_ndfController.text),
+        pdin_n: double.parse(_pdinController.text),
+        pdie_n: double.parse(_pdieController.text),
+        ndf_n: double.parse(_ndfController.text),
         quantite: 0);
 
     _refreshNourritures();
@@ -586,17 +585,27 @@ class _ListenourrituresState extends State<Listenourritures> {
                             minTileHeight: 2,
                             minVerticalPadding: 3,
                             horizontalTitleGap: 0,
-                            title: SizedBox(
-                                child: Text(
-                              maxLines: 1,
-                              textAlign: TextAlign.start,
-                              _nourritures[index]['nom_n'].toString(),
-                              style: TextStyle(
-                                  letterSpacing: 0.001,
-                                  color: Color(0XFF035B6F),
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 11),
-                            )),
+                            title:   _nourritures[index]['nom_n'] == null
+                                ? Text(
+                                    _nourritures[index]['nom_ar'],
+                                    maxLines: 1,
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                        letterSpacing: 0.001,
+                                        color: Color(0XFF035B6F),
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 12),
+                                  )
+                                : Text(
+                                    _nourritures[index]['nom_n'],
+                                    maxLines: 1,
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                        letterSpacing: 0.001,
+                                        color: Color(0XFF035B6F),
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 12),
+                                  ),
                             subtitle:
                                 Text(_nourritures[index]['motif_n'].toString(),
                                     style: const TextStyle(

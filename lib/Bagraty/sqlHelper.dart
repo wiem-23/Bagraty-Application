@@ -326,10 +326,10 @@ quantite REAL
     required String nom_ar,
     required double ms_n,
     required double ufl_n,
-    required int pdin_n,
-    required int pdie_n,
-    required int ndf_n,
-    required int quantite,
+    required double pdin_n,
+    required double pdie_n,
+    required double ndf_n,
+    required double quantite,
   }) async {
     final db = await SQLHelper().db();
 
@@ -355,10 +355,10 @@ quantite REAL
     required String nom_n,
     required double ms_n,
     required double ufl_n,
-    required int pdin_n,
-    required int pdie_n,
-    required int ndf_n,
-    required int quantite,
+    required double pdin_n,
+    required double pdie_n,
+    required double ndf_n,
+    required double quantite,
   }) async {
     final db = await SQLHelper().db();
 
@@ -513,6 +513,27 @@ quantite REAL
   static Future<List<Map<String, dynamic>>> getItems() async {
     final db = await SQLHelper().db();
     return db.query('Nourriture', orderBy: "motif_n");
+  }
+
+  static Future<List<Map<String, dynamic>>> getNoms() async {
+    final db = await SQLHelper().db();
+
+    return db.rawQuery("SELECT nom_n, nom_ar FROM Nourriture ");
+  }
+
+  static Future<String?> checkNom() async {
+    List L = await SQLHelper.getNoms();
+    String NomFinal = "vide";
+    L.toList();
+    for (var listeNoms in L.toList()) {
+      if (listeNoms['nom_n'] == null || listeNoms['nom_n'] == "") {
+        NomFinal = listeNoms['nom_ar'];
+      } else {
+        NomFinal = listeNoms['nom_n'];
+      }
+    }
+
+    return NomFinal;
   }
 
   static Future<List<Map<String, dynamic>>> getAllExp() async {
